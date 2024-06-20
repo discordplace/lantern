@@ -369,10 +369,10 @@ LOGTAIL_SOURCE_TOKEN=your_logtail_source_token
 5. Fill these configuration values in the `config.toml` file with your own values:
 
 ```toml
-base_guild_id = your_base_guild_id
+base_guild_id = 'your_base_guild_id'
 
 [server]
-port = port_number
+port = 8000
 ```
 
 6. Start the server:
