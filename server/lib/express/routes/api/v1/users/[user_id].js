@@ -53,7 +53,7 @@ module.exports = {
       const createdUserData = createUserData(user_id);
 
       if (svg == 1) {
-        response.setHeader('Cache-Control', 'no-store');
+        response.setHeader('Cache-Control', 'no-cache');
         response.setHeader('Content-Type', 'image/svg+xml');
         response.setHeader('content-security-policy', 'default-src \'none\'; img-src * data:; style-src \'unsafe-inline\'');
 
