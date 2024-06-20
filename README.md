@@ -381,7 +381,7 @@ port = 8000
 npm start
 ```
 
-7. The server should now be running on `http://localhost:3003`. You can access the API and WebSocket connection from this URL.
+7. The server should now be running on `http://localhost:8000`. You can access the API and WebSocket connection from this URL.
 
 > [!NOTE]  
 > __**Make sure you enable**__ these settings in your bot's application settings:
