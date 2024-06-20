@@ -10,9 +10,11 @@ const { LogtailTransport } = require('@logtail/winston');
 const chalk = require('chalk');
 const { inspect } = require('node:util');
 
+const highestLevel = Object.keys(config.logger.levels)[Object.keys(config.logger.levels).length - 1];
+
 const defaultTransports = [
   new Console({
-    level: Object.keys(config.logger.levels)[Object.keys(config.logger.levels).length - 1]
+    level: highestLevel
   }),
   new File({
     filename: 'logs/error.log',
@@ -38,11 +40,12 @@ const defaultTransports = [
 
 if (process.env.NODE_ENV === 'production') {
   const logtail = new Logtail(process.env.LOGTAIL_SOURCE_TOKEN);
-  const transport = new LogtailTransport(logtail);
+  const transport = new LogtailTransport(logtail, {
+    level: highestLevel
+  });
 
   defaultTransports.push(transport);
 }
-
 
 const logger = winston.createLogger({
   levels: Object.keys(config.logger.levels).map((key, index) => ({ [key]: index }))
