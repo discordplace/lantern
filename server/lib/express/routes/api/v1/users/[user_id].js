@@ -38,9 +38,18 @@ module.exports = {
       .optional()
       .isNumeric().withMessage('hideActivity must be a number.')
       .isIn([0, 1]).withMessage('hideActivity must be either 0 or 1.'),
+    query('t')
+      .optional()
+      .isNumeric().withMessage('t must be a number.'),
     async (request, response) => {
       const { user_id } = request.params;
-      const { svg } = request.query;
+      const { svg, t } = request.query;
+      
+      if (svg == 1 && !t) {
+        // if no t query parameter is provided, add a t query parameter with the current time and redirect to the same URL
+        const fullUrl = `${request.protocol}://${request.get('host')}${request.originalUrl}&t=${Date.now()}`;
+        return response.redirect(301, fullUrl);
+      }
 
       const guild = client.guilds.cache.get(config.base_guild_id);
       const member = guild.members.cache.get(user_id);
