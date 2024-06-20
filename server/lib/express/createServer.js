@@ -6,7 +6,14 @@ const morganMiddleware = require('@/lib/express/middlewares/morganMiddleware');
 const ws = require('express-ws');
 
 async function createServer() {
-  const { app, getWss } = ws(express());
+  const options = {
+    wsOptions: {
+      maxPayload: config.server.socket.maxpayload,
+      clientTracking: config.server.socket.clienttracking,
+      keepAlive: config.server.socket.keepalive
+    }
+  }
+  const { app, getWss } = ws(express(), null , options);
 
   global.getWss = getWss;
 

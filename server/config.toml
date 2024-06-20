@@ -9,6 +9,9 @@ port = 3003
 
 [server.socket]
 heartbeat_interval = 30000
+maxpayload = 1024
+clienttracking = true
+keepalive = true
 
 [server.socket.opcodes]
 HELLO = 1
