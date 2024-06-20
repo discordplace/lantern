@@ -256,6 +256,9 @@ async function createSvg(userData, options = {}) {
                         position: relative;
                         width: 80px;
                         height: 80px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                       ">
                         ${userData.activities[0].assets?.large_image?.image_url ? `
                           <img
