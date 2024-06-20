@@ -43,7 +43,7 @@ Retrieve the data of a user with the specified ID.
     "display_avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.png",
     "bot": false,
     "flags": {
-      "human_readable": ["DISCORD_EMPLOYEE"],
+      "human_readable": ["Staff"],
       "bitfield": 1
     },
     "monitoring_since": {
