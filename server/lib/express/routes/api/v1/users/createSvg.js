@@ -47,23 +47,20 @@ async function createSvg(userData, options = {}) {
   const images = [
     {
       id: 'display_avatar',
-      url: userData.metadata.display_avatar_url,
-      base64: null
+      url: userData.metadata.display_avatar_url
     },
     {
       id: 'large_image',
-      url: userData.activities[0]?.assets?.large_image?.image_url,
-      base64: null
+      url: userData.activities[0]?.assets?.large_image?.image_url
     },
     {
       id: 'small_image',
-      url: userData.activities[0]?.assets?.small_image?.image_url,
-      base64: null
+      url: userData.activities[0]?.assets?.small_image?.image_url
     }
   ];
 
   await Promise.all(images
-    .filter(image => !image.base64)
+    .filter(image => image.url)
     .map(async image => {
       const response = await axios.get(image.url, { responseType: 'arraybuffer' })
         .catch(() => null);
