@@ -158,7 +158,7 @@ You should send `Opcode 2: Initialize` immediately after receiving `Opcode 1: He
   {
     "op": 2,
     "d": {
-      "user_ids": ["All"]
+      "user_id": "All"
     }
   }
   ```
