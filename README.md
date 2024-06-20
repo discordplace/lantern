@@ -361,6 +361,9 @@ MONGODB_URI=your_mongodb_uri
 
 # For GitHub Auto Deploy (not needed for local development)
 GITHUB_WEBHOOK_SECRET=your_github_webhook_secret
+
+# Logtail Source Token (for logging, not needed for local development)
+LOGTAIL_SOURCE_TOKEN='eEWvxJsqGshYFFrDMVBW5p69'
 ```
 
 5. Fill these configuration values in the `config.toml` file with your own values:
