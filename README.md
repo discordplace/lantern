@@ -363,16 +363,16 @@ MONGODB_URI=your_mongodb_uri
 GITHUB_WEBHOOK_SECRET=your_github_webhook_secret
 
 # Logtail Source Token (for logging, not needed for local development)
-LOGTAIL_SOURCE_TOKEN='eEWvxJsqGshYFFrDMVBW5p69'
+LOGTAIL_SOURCE_TOKEN=your_logtail_source_token
 ```
 
 5. Fill these configuration values in the `config.toml` file with your own values:
 
 ```toml
-base_guild_id = '1253092552404631582'
+base_guild_id = your_base_guild_id
 
 [server]
-port = 3003
+port = port_number
 ```
 
 6. Start the server:
