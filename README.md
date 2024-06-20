@@ -338,7 +338,7 @@ Once you have the prerequisites installed, follow these steps to self-host Lante
 1. Clone the repository to your local machine:
 
 ```bash
-git clone
+git clone https://github.com/discordplace/lantern.git
 ```
 
 2. Navigate to the cloned repository:
