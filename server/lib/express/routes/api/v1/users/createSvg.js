@@ -6,6 +6,7 @@
 const dateFns = require('date-fns');
 const axios = require('axios');
 const badges = require('@/lib/constants/badges');
+const Discord = require('discord.js');
 
 function activityElapsedTime(activity) {
   const startTime = new Date(activity.start_time.raw);
@@ -34,6 +35,9 @@ async function createSvg(userData, options = {}) {
   
   let div_height = 50;
   let svg_height = 130;
+
+  // Remove custom status activity from activities array
+  userData.activities = userData.activities.filter(activity => activity.type !== Discord.ActivityType.Custom);
 
   if (userData.activities.length > 0) {
     div_height = 225;
