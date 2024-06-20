@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "server",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node -r dotenv/config -r module-alias/register -r ./scripts/loadConfig -r ./scripts/loadLogger -r ./scripts/checkEnvironmentVariables -r ./scripts/handleUncaughtExceptions index.js",
+    "start": "cross-env NODE_ENV=production node -r dotenv/config -r module-alias/register -r ./scripts/loadConfig -r ./scripts/loadLogger -r ./scripts/checkEnvironmentVariables -r ./scripts/handleUncaughtExceptions index.js --optimize_for_size --production",
+    "lint": "eslint ."
+  },
+  "contributors": [
+    "chimpdev <skyhancloud@gmail.com>"
+  ],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/discordplace/lantern/tree/main/apps/server"
+  },
+  "bugs": {
+    "url": "https://github.com/discordplace/lantern/issues"
+  },
+  "_moduleAliases": {
+    "@": "./",
+    "@/utils": "./lib/utils",
+    "@/scripts": "./scripts",
+    "@/models": "./lib/models"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.56.0"
+  },
+  "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "axios": "^1.7.2",
+    "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
+    "cron": "^3.1.7",
+    "date-fns": "^3.6.0",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-file-routing": "^3.0.3",
+    "express-validator": "^7.1.0",
+    "express-ws": "^5.0.2",
+    "module-alias": "^2.2.3",
+    "mongoose": "^8.4.3",
+    "morgan": "^1.10.0",
+    "winston": "^3.13.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "zod": "^3.23.8"
+  }
+}

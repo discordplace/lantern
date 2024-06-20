@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"],
+      "@/utils/*": ["./lib/utils/*"],
+      "@/scripts/*": ["./scripts/*"],
+      "@/models/*": ["./lib/models/*"],
+    }
+  }
+}
