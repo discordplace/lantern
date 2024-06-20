@@ -42,8 +42,6 @@ client.on('guildMemberAdd', async member => {
 
   // Send a message to all active sockets that the user has joined the server
   for (const [, data] of ActiveSockets) {
-    console.log(data.subscribed);
-
     if (data.subscribed === 'ALL') {
       socket_send(data.instance, config.server.socket.Opcodes.USER_JOINED, createUserData(member.user.id));
     }
