@@ -7,6 +7,9 @@ module.exports = {
   post: [
     bodyParser.json(),
     async (request, response) => {
+      const signature = request.headers['x-hub-signature-256'];
+      if (!signature) return response.status(400).json({ error: 'No signature provided.' });
+
       const modifiedServerFiles = request.body.commits.reduce((acc, commit) => {
         commit.modified.filter(file => file.startsWith('server/')).forEach(file => acc.push(file));
         commit.added.filter(file => file.startsWith('server/')).forEach(file => acc.push(file));
@@ -15,10 +18,7 @@ module.exports = {
         return acc;
       }, []);
 
-      if (!modifiedServerFiles.length) return response.sendError('No server files modified', 400);
-
-      const signature = request.headers['x-hub-signature-256'];
-      if (!signature) return response.sendError('No signature provided', 400);
+      if (!modifiedServerFiles.length) return response.status(200).json({ error: 'No server files modified.' });
 
       const hmac = crypto.createHmac('sha256', process.env.GITHUB_WEBHOOK_SECRET);
       hmac.update(JSON.stringify(request.body));
@@ -27,9 +27,9 @@ module.exports = {
       const hash = Buffer.from(signature, 'utf8');
       
       try {
-        if (hash.length !== digest.length || !crypto.timingSafeEqual(digest, hash)) return response.sendError('Invalid signature', 403);
+        if (hash.length !== digest.length || !crypto.timingSafeEqual(digest, hash)) return response.status(403).json({ error: 'Invalid signature.' });
       } catch (error) {
-        return response.sendError('Invalid signature', 403);
+        return response.status(403).json({ error: 'Invalid signature.' });
       }
 
       try {
@@ -67,7 +67,7 @@ module.exports = {
         process.exit(0);
       } catch (error) {
         logger.error('Error while pulling from GitHub:', error);
-        response.sendError(`Error while pulling from GitHub:\n${error}`, 500);
+        response.status(500).json({ error: `Error while pulling from GitHub:\n${error}` });
       }
     }
   ]
