@@ -226,7 +226,11 @@ If any user you have subscribed leaves the Lantern server, you will receive `Opc
   ```json
   {
     "t": "INIT_ACK",
-    "op": 3
+    "op": 3,
+    "d": {
+      // User data
+      // Can be array if multiple users are subscribed
+    }
   }
   ```
 </details>
