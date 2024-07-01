@@ -1,5 +1,6 @@
 required_environment_variables = [
-  'DISCORD_BOT_TOKEN'
+  'DISCORD_BOT_TOKEN',
+  'MONGODB_URI'
 ]
 
 base_guild_id = '1253092552404631582'
