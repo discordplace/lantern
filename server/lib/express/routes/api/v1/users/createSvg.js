@@ -6,6 +6,7 @@
 const dateFns = require('date-fns');
 const axios = require('axios');
 const badges = require('@/lib/constants/badges');
+const status = require('@/lib/constants/status');
 const Discord = require('discord.js');
 
 function activityElapsedTime(activity) {
@@ -33,16 +34,11 @@ async function createSvg(userData, options = {}) {
 
   const currentStatus = Object.values(userData.active_platforms).find(platform => platform.status !== 'offline') || 'offline';
   
-  let div_height = 50;
-  let svg_height = 130;
+  let div_height = 225;
+  let svg_height = 300;
 
   // Remove custom status activity from activities array
   userData.activities = userData.activities.filter(activity => activity.type !== Discord.ActivityType.Custom);
-
-  if (userData.activities.length > 0) {
-    div_height = 225;
-    svg_height = 300;
-  }
 
   const images = [
     {
@@ -106,9 +102,10 @@ async function createSvg(userData, options = {}) {
               height: 100px;
               border-radius: 50%;
               border: solid 8px ${variables.colors.background};
+              background-color: ${variables.colors.background};
             ">
               <img 
-                alt="ben.can's avatar" 
+                alt="${userData.metadata.username}'s avatar"
                 loading="lazy" 
                 width="128" 
                 height="128" 
@@ -125,14 +122,23 @@ async function createSvg(userData, options = {}) {
               ${!options.hideStatus ? `
                 <div style="
                   position: absolute;
-                  width: 20px;
-                  height: 20px;
+                  width: 26px;
+                  height: 26px;
                   border-radius: 50%;
-                  background-color: ${variables.statusColors[currentStatus]};
-                  border: 8px solid ${variables.colors.background};
+                  border: 6px solid ${variables.colors.background};
                   bottom: 0;
                   right: 0;
-                "/>
+                  background-color: ${variables.colors.background};
+                ">
+                  <img
+                    alt="Status"
+                    loading="lazy"
+                    width="26"
+                    height="26"
+                    decoding="async"
+                    src="data:image/png;base64,${status.find(({ id }) => id === currentStatus).base64}"
+                  />
+                </div>
               ` : ''}
             </div>
           </div>
@@ -352,7 +358,43 @@ async function createSvg(userData, options = {}) {
                 </div>
               </div>
             </div>
-          ` : ''}
+          ` : `
+            <div style="
+              width: 100%;
+              height: 1px;
+              background-color: ${variables.colors.background_secondary};
+              margin-top: 2rem;
+              margin-bottom: 1rem;
+            "/>
+
+            <div
+              style="
+                margin-top: 3rem;
+              "
+            >
+              <div style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.125rem;
+                font-weight: 600;
+                color: ${variables.colors.text.primary};
+              ">
+                No Activity
+              </div>
+
+              <div style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 0.875rem;
+                font-weight: 500;
+                color: ${variables.colors.text.secondary};
+              ">
+                User is not currently doing anything.
+              </div>
+            </div>
+          `}
         </div>
       </foreignObject>
     </svg>
