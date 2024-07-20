@@ -86,6 +86,26 @@ async function createSvg(userData, options = {}) {
           padding: .75rem;
           top: 3rem;
         ">
+          <div
+            style="
+              position: absolute;
+              bottom: 1rem;
+              right: 1rem;
+              font-size: 0.75rem;
+              font-weight: 500;
+              color: ${variables.colors.text.secondary};
+              padding-top: 0.5rem;
+              padding-left: 1rem;
+              padding-right: 1rem;
+              padding-bottom: 0.5rem;
+              border-radius: ${options.borderRadius};
+              background-color: ${variables.colors.background_secondary};
+              letter-spacing: 0.5px;
+            "
+          >
+            Powered by lantern.rest
+          </div>
+
           <div style="
             pointer-events: none; 
             position: relative; 
