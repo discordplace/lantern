@@ -6,6 +6,8 @@ const syncUsers = require('@/utils/syncUsers');
 const createServer = require('@/lib/express/createServer');
 const { send: socket_send, disconnect: socket_disconnect } = require('@/lib/express/routes/socket/utils');
 const createUserData = require('@/utils/createUserData');
+const updateClientActivity = require('@/utils/updateClientActivity');
+const { CronJob } = require('cron');
 
 const client = new Discord.Client({
   intents: [
@@ -31,6 +33,12 @@ client.on('ready', async () => {
 
       // Start the Express server
       createServer();
+
+      // Update the client's activity
+      // also create a cron job to update the activity every 3 hours
+      updateClientActivity();
+
+      new CronJob('0 */3 * * *', updateClientActivity).start();
     })
     .catch(error => logger.error(error));
 });
