@@ -12,7 +12,7 @@ async function createServer() {
       clientTracking: config.server.socket.clienttracking,
       keepAlive: config.server.socket.keepalive
     }
-  }
+  };
   const { app, getWss } = ws(express(), null , options);
 
   global.getWss = getWss;
