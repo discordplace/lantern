@@ -6,7 +6,6 @@ const createSvg = require('@/lib/express/routes/api/v1/users/createSvg');
 
 module.exports = {
   get: [
-    validateRequest,
     param('user_id')
       .exists().withMessage('user_id is required.')
       .isNumeric().withMessage('user_id must be a number.')
@@ -38,6 +37,7 @@ module.exports = {
       .optional()
       .isNumeric().withMessage('hideActivity must be a number.')
       .isIn([0, 1]).withMessage('hideActivity must be either 0 or 1.'),
+    validateRequest,
     async (request, response) => {
       const { user_id } = request.params;
       const { svg } = request.query;
