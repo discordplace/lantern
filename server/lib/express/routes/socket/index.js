@@ -24,6 +24,9 @@ module.exports = {
       
       switch (op) {
       case Opcodes.INIT:
+        // Clear timeout since the connection is now establishedata.
+        clearTimeout(timeout);
+
         var error = getZodError(data);
         if (error) return disconnect(websocket, null, error);
 
@@ -44,9 +47,6 @@ module.exports = {
           lastHeartbeat: Date.now(),
           subscribed: subscribed_to_all ? 'ALL' : (data.user_ids || [data.user_id])
         });
-
-        // Clear timeout since the connection is now establishedata.
-        clearTimeout(timeout);
 
         logger.socket(`New websocket connection: ${id}`);
 
