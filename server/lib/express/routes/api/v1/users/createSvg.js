@@ -82,7 +82,7 @@ async function createSvg(userData, options = {}) {
           background-color: ${variables.colors.background};
           color: ${variables.colors.text.primary};
           font-size: 16px;
-          border-radius: ${options.borderRadius};
+          border-radius: ${options.borderRadius}rem;
           padding: .75rem;
           top: 3rem;
         ">
@@ -98,7 +98,7 @@ async function createSvg(userData, options = {}) {
               padding-left: 1rem;
               padding-right: 1rem;
               padding-bottom: 0.5rem;
-              border-radius: ${options.borderRadius};
+              border-radius: ${options.borderRadius}rem;
               background-color: ${variables.colors.background_secondary};
               letter-spacing: 0.5px;
             "

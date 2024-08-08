@@ -18,7 +18,7 @@ Retrieve the data of a user with the specified ID.
 | `id` | string | The ID of the user to retrieve. |
 | `svg` | boolean | Whether to return the user's avatar as an SVG image. Defaults to `false`. |
 | `theme` | string | The theme to use for the user's card. Must be either `light` or `dark`. |
-| `borderRadius` | number | The border radius to use for the user's card. |
+| `borderRadius` | number | The border radius rem value for the user's card. Defaults to `2`. |
 | `hideGlobalName` | number | Whether to hide the user's global name. Must be either `0` or `1`. |
 | `hideStatus` | number | Whether to hide the user's status. Must be either `0` or `1`. |
 | `hideBadges` | number | Whether to hide the user's badges. Must be either `0` or `1`. |
