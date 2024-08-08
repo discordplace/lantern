@@ -56,14 +56,20 @@ module.exports = {
           const userData = users.map(user => createUserData(user.id));
           
           send(websocket, Opcodes.INIT_ACK, userData);
+
+          logger.socket(`Websocket connection ${id} subscribed to all users.`);
         } else {
           if (data.user_id) {
             send(websocket, Opcodes.INIT_ACK, createUserData(data.user_id));
+
+            logger.socket(`Websocket connection ${id} subscribed to user ${data.user_id}.`);
           } else {
             const users = await User.find({ id: { $in: data.user_ids } });
             const userData = users.map(user => createUserData(user.id));
             
             send(websocket, Opcodes.INIT_ACK, userData);
+
+            logger.socket(`Websocket connection ${id} subscribed to users ${data.user_ids.join(', ')}.`);
           }
         }
 
