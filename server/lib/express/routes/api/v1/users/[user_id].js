@@ -59,7 +59,7 @@ module.exports = {
 
         const defaultOptions = {
           theme: 'dark',
-          borderRadius: '2rem',
+          borderRadius: 2,
           hideGlobalName: false,
           hideStatus: false,
           hideBadges: false,
