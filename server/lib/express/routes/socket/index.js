@@ -24,7 +24,7 @@ module.exports = {
       
       switch (op) {
       case Opcodes.INIT:
-        // Clear timeout since the connection is now establishedata.
+        // Clear timeout since the connection is now established.
         clearTimeout(timeout);
 
         var error = getZodError(data);
