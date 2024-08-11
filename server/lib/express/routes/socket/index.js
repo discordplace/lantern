@@ -65,7 +65,7 @@ module.exports = {
           if (data.user_id) {
             const user_storage = await Storage.findOne({ userId: data.user_id });
             
-            send(websocket, Opcodes.INIT_ACK, createUserData(data.user_id, user_storage)?.kv || {});
+            send(websocket, Opcodes.INIT_ACK, createUserData(data.user_id, user_storage?.kv || {}));
 
             logger.socket(`Websocket connection ${id} subscribed to user ${data.user_id}.`);
           } else {
