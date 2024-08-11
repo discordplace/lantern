@@ -12,7 +12,7 @@ module.exports = async interaction => {
     const commandData = command.data[commandName];
     if (!commandData) return interaction.error('Command data not found. Please contact the developer.');
 
-    logger.bot(`User @${interaction.user.username} (${interaction.user.id}) executed command "${commandName}" in guild @${interaction.guild.name} (${interaction.guild.id})`);
+    logger.bot(`User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandName}" in guild "${interaction.guild.name}" (${interaction.guild.id})`);
 
     return commandData.execute.command(interaction, { subcommand, group }); 
   }
