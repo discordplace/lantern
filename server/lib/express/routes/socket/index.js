@@ -5,6 +5,7 @@ const getZodError = require('@/utils/getZodError');
 const { CronJob } = require('cron');
 const createUserData = require('@/utils/createUserData');
 const { send, disconnect } = require('@/lib/express/routes/socket/utils');
+const Storage = require('@/models/Storage');
 
 global.ActiveSockets = new Discord.Collection();
 
@@ -53,19 +54,25 @@ module.exports = {
         // Acknowledge the connection.
         if (subscribed_to_all) {
           const users = await User.find();
-          const userData = users.map(user => createUserData(user.id));
+          const storages = await Storage.find({ userId: { $in: users.map(user => user.id) } });
+          
+          const userData = users.map(user => createUserData(user.id, storages.find(storage => storage.userId === user.id)?.kv || {}));
           
           send(websocket, Opcodes.INIT_ACK, userData);
 
           logger.socket(`Websocket connection ${id} subscribed to all users.`);
         } else {
           if (data.user_id) {
-            send(websocket, Opcodes.INIT_ACK, createUserData(data.user_id));
+            const user_storage = await Storage.findOne({ userId: data.user_id });
+            
+            send(websocket, Opcodes.INIT_ACK, createUserData(data.user_id, user_storage)?.kv || {});
 
             logger.socket(`Websocket connection ${id} subscribed to user ${data.user_id}.`);
           } else {
             const users = await User.find({ id: { $in: data.user_ids } });
-            const userData = users.map(user => createUserData(user.id));
+            const storages = await Storage.find({ userId: { $in: users.map(user => user.id) } });
+            
+            const userData = users.map(user => createUserData(user.id, storages.find(storage => storage.userId === user.id)?.kv || {}));
             
             send(websocket, Opcodes.INIT_ACK, userData);
 

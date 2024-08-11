@@ -3,6 +3,7 @@ const { param, query } = require('express-validator');
 const validateRequest = require('@/lib/express/middlewares/validateRequest');
 const createUserData = require('@/utils/createUserData');
 const createSvg = require('@/lib/express/routes/api/v1/users/[user_id]/createSvg');
+const Storage = require('@/models/Storage');
 
 module.exports = {
   get: [
@@ -50,7 +51,9 @@ module.exports = {
       const user = await User.findOne({ id: user_id }).lean();
       if (!user) return response.status(404).json({ error: `User ${user_id} is not being monitoring by Lantern.` });
    
-      const createdUserData = createUserData(user_id);
+      const user_storage = await Storage.findOne({ userId: user_id });
+
+      const createdUserData = createUserData(user_id, user_storage?.kv || {});
 
       if (svg == 1) {
         response.setHeader('Cache-Control', 'no-cache');

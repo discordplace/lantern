@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const dateFns = require('date-fns');
-
-function createUserData(user_id) {
+  
+async function createUserData(user_id, kv) {
   const guild = client.guilds.cache.get(config.base_guild_id);
   const member = guild.members.cache.get(user_id);
 
@@ -132,7 +132,8 @@ function createUserData(user_id) {
     },
     status: member.presence?.status,
     active_platforms: activePlatforms,
-    activities: parsedActivites
+    activities: parsedActivites,
+    storage: kv
   };
 }
 

@@ -10,7 +10,8 @@ module.exports = async member => {
   // Send a message to all active sockets that the user has joined the server
   for (const [, data] of ActiveSockets) {
     if (data.subscribed === 'ALL') {
-      socket_send(data.instance, config.server.socket.Opcodes.USER_JOINED, createUserData(member.user.id));
+      // Users can't have storage data when they join the server, so we just send an empty object
+      socket_send(data.instance, config.server.socket.Opcodes.USER_JOINED, createUserData(member.user.id, {}));
     }
   }
 };

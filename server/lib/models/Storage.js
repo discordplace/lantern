@@ -57,13 +57,13 @@ Model.watch().on('change', async metadata => {
   const { documentKey: { _id } } = metadata;
 
   // Find the storage document that was updated
-  const foundStorage = await Model.findById(_id).select('userId').lean();
+  const foundStorage = await Model.findById(_id).lean();
   if (!foundStorage) return;
 
   // Send a message to all active sockets that the user's storage has changed
   for (const [, data] of ActiveSockets) {
     if (data.subscribed === 'ALL' || data.subscribed.includes(foundStorage.userId)) {
-      socket_send(data.instance, config.server.socket.opcodes.STORAGE_UPDATE, createUserData(foundStorage.userId));
+      socket_send(data.instance, config.server.socket.opcodes.STORAGE_UPDATE, createUserData(foundStorage.userId, foundStorage.kv || {}));
     }
   }
 });
