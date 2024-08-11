@@ -54,7 +54,13 @@ const StorageSchema = new Schema({
 const Model = mongoose.model('KeyValueStorage', StorageSchema);
 
 Model.watch().on('change', async metadata => {
-  const { documentKey: { _id } } = metadata;
+  const { documentKey: { _id }, operationType } = metadata;
+
+  // Do not send a socket message if the token was updated
+  if (operationType === 'update') {
+    const { updateDescription } = metadata;
+    if (updateDescription.updatedFields.token) return;
+  }
 
   // Find the storage document that was updated
   const foundStorage = await Model.findById(_id).lean();
