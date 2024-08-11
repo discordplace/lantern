@@ -32,6 +32,9 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      dedent:
+        specifier: ^1.5.3
+        version: 1.5.3
       discord.js:
         specifier: ^14.15.3
         version: 14.15.3
@@ -386,6 +389,14 @@ packages:
       supports-color: '*'
     peerDependenciesMeta:
       supports-color:
+        optional: true
+
+  dedent@1.5.3:
+    resolution: {integrity: sha512-NHQtfOOW68WD8lgypbLA5oT+Bt0xXJhiYvoR6SmmNXZfpzOGXwdKWmcwG8N7PwVVWV3eF/68nmD9BaJSsTBhyQ==}
+    peerDependencies:
+      babel-plugin-macros: ^3.1.0
+    peerDependenciesMeta:
+      babel-plugin-macros:
         optional: true
 
   deep-is@0.1.4:
@@ -1503,6 +1514,8 @@ snapshots:
   debug@4.3.5:
     dependencies:
       ms: 2.1.2
+
+  dedent@1.5.3: {}
 
   deep-is@0.1.4: {}
 

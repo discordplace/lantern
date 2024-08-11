@@ -1,6 +1,7 @@
 required_environment_variables = [
   'DISCORD_BOT_TOKEN',
-  'MONGODB_URI'
+  'MONGODB_URI',
+  'KV_TOKEN_ENCRYPTION_SECRET'
 ]
 
 application_id = '1253067981832061001'
@@ -25,6 +26,7 @@ PRESENCE_UPDATE = 6
 USER_LEFT = 7
 USER_JOINED = 8
 DISCONNECT = 9
+STORAGE_UPDATE = 10
 
 [logger.levels]
 error = 'red'

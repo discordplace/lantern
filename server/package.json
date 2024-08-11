@@ -40,6 +40,7 @@
     "compression": "^1.7.4",
     "cron": "^3.1.7",
     "date-fns": "^3.6.0",
+    "dedent": "^1.5.3",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
