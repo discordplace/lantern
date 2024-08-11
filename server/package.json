@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development node -r dotenv/config -r module-alias/register -r ./scripts/loadConfig -r ./scripts/loadLogger -r ./scripts/checkEnvironmentVariables -r ./scripts/handleUncaughtExceptions index.js",
     "start": "cross-env NODE_ENV=production node -r dotenv/config -r module-alias/register -r ./scripts/loadConfig -r ./scripts/loadLogger -r ./scripts/checkEnvironmentVariables -r ./scripts/handleUncaughtExceptions index.js --optimize_for_size --production",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "bot:registerCommands": "cross-env NODE_ENV=production node -r dotenv/config -r module-alias/register -r ./scripts/loadConfig -r ./scripts/loadLogger -r ./scripts/checkEnvironmentVariables -r ./scripts/handleUncaughtExceptions ./scripts/registerCommands.js",
+    "bot:unregisterCommands": "cross-env NODE_ENV=production node -r dotenv/config -r module-alias/register -r ./scripts/loadConfig -r ./scripts/loadLogger -r ./scripts/checkEnvironmentVariables -r ./scripts/handleUncaughtExceptions ./scripts/unregisterCommands.js"
   },
   "contributors": [
     "chimpdev <skyhancloud@gmail.com>"

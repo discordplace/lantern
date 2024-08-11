@@ -3,6 +3,7 @@ required_environment_variables = [
   'MONGODB_URI'
 ]
 
+application_id = '1253067981832061001'
 base_guild_id = '1253092552404631582'
 
 [server]

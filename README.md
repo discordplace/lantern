@@ -385,6 +385,7 @@ LOGTAIL_SOURCE_TOKEN=your_logtail_source_token
 5. Fill these configuration values in the `config.toml` file with your own values:
 
 ```toml
+application_id = 'your_bot_id'
 base_guild_id = 'your_base_guild_id'
 
 [server]
@@ -398,6 +399,16 @@ npm start
 ```
 
 7. The server should now be running on `http://localhost:8000`. You can access the API and WebSocket connection from this URL.
+
+8. (Optional) To register/unregister bot commands, run the following command:
+
+```bash
+npm run bot:registerCommands
+```
+  
+```bash
+npm run bot:unregisterCommands
+```
 
 > [!NOTE]  
 > __**Make sure you enable**__ these settings in your bot's application settings:
