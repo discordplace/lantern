@@ -6,6 +6,18 @@ While Lantern is ready to use out-of-the-box without the need for any deployment
 
 ---
 
+## Table of Contents
+
+- [API Docs](#api-docs)
+  - [**GET** `/api/v1/users/:id`](#get-apiv1usersid)
+  - [WebSocket](#websocket)
+- [Self-Hosting](#self-hosting)
+- [Contributing](#contributing)
+- [Help](#help)
+- [License](#license)
+
+---
+
 ## API Docs
 
 ##### GET `/api/v1/users/:id`
