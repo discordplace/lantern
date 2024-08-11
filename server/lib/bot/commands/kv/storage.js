@@ -121,7 +121,7 @@ module.exports = {
         },
         autocomplete: async interaction => {
           const storage = await Storage.findOne({ userId: interaction.user.id });
-          if (!storage) return interaction.respondAutocomplete([]);
+          if (!storage || !storage.kv) return interaction.respondAutocomplete([]);
 
           const keys = [...storage.kv.keys()];
 

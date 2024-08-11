@@ -14,8 +14,8 @@ module.exports = async interaction => {
 
     await commandData.execute.command(interaction, { subcommand, group });
     
-    if (interaction.guild) logger.bot(`User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandName}" in guild "${interaction.guild.name}" (${interaction.guild.id}) which takes ${interaction.createdTimestamp - Date.now()} ms to execute.`);
-    else logger.bot(`User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandName}" in DMs which takes ${interaction.createdTimestamp - Date.now()} ms to execute.`);
+    if (interaction.guild) logger.bot(`User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandName}" in guild "${interaction.guild.name}" (${interaction.guild.id}) which takes ${Date.now() - interaction.createdTimestamp} ms to execute.`);
+    else logger.bot(`User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandName}" in DMs which takes ${Date.now() - interaction.createdTimestamp} ms to execute.`);
   }
 
   if (interaction.type === Discord.InteractionType.ApplicationCommandAutocomplete) {
