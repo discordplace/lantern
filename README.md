@@ -594,6 +594,7 @@ npm install
 ```env
 DISCORD_BOT_TOKEN=your_discord_bot_token
 MONGODB_URI=your_mongodb_uri
+KV_TOKEN_ENCRYPTION_SECRET=your_256_bit_encryption_secret
 
 # For GitHub Auto Deploy (not needed for local development)
 GITHUB_WEBHOOK_SECRET=your_github_webhook_secret
@@ -601,6 +602,9 @@ GITHUB_WEBHOOK_SECRET=your_github_webhook_secret
 # Logtail Source Token (for logging, not needed for local development)
 LOGTAIL_SOURCE_TOKEN=your_logtail_source_token
 ```
+
+> [!NOTE]
+> - `KV_TOKEN_ENCRYPTION_SECRET` should be a 256-bit encryption secret that you generate. You can use a tool like [this](https://asecuritysite.com/encryption/plain). This secret is used to encrypt the KV storage token. So make sure to keep it secure.
 
 5. Fill these configuration values in the `config.toml` file with your own values:
 
