@@ -2,7 +2,7 @@ const User = require('@/models/User');
 const { param, query } = require('express-validator');
 const validateRequest = require('@/lib/express/middlewares/validateRequest');
 const createUserData = require('@/utils/createUserData');
-const createSvg = require('@/lib/express/routes/api/v1/users/createSvg');
+const createSvg = require('@/lib/express/routes/api/v1/users/[user_id]/createSvg');
 
 module.exports = {
   get: [

@@ -11,6 +11,17 @@ While Lantern is ready to use out-of-the-box without the need for any deployment
 - [API Docs](#api-docs)
   - [**GET** `/api/v1/users/:id`](#get-apiv1usersid)
   - [WebSocket](#websocket)
+- [KV Storage](#kv-storage)
+  - [Use cases](#use-cases)
+  - [Limits](#limits)
+  - [WebSocket](#websocket-1)
+  - [RESTful API](#restful-api)
+    * [**GET** `/api/v1/users/:user_id/storage`](#get-apiv1usersuser_idstorage)
+    * [**DELETE** `/api/v1/users/:user_id/storage`](#delete-apiv1usersuser_idstorage-requires-authorization-header)
+    * [**GET** `/api/v1/users/:user_id/storage/:key`](#get-apiv1usersuser_idstoragekey)
+    * [**PUT** `/api/v1/users/:user_id/storage/:key`](#put-apiv1usersuser_idstoragekey-requires-authorization-header)
+    * [**PATCH** `/api/v1/users/:user_id/storage/:key`](#patch-apiv1usersuser_idstoragekey-requires-authorization-header)
+    * [**DELETE** `/api/v1/users/:user_id/storage/:key`](#delete-apiv1usersuser_idstoragekey-requires-authorization-header)
 - [Self-Hosting](#self-hosting)
 - [Contributing](#contributing)
 - [Help](#help)
@@ -116,7 +127,11 @@ Retrieve the data of a user with the specified ID.
         "raw": "2021-05-03T00:00:00.000Z"
       }
     }
-  ]
+  ],
+  // Key-value pairs for the user (if any)
+  "storage": {
+    "key": "value"
+  }
 }
 ```
 </details>
@@ -195,6 +210,7 @@ If any user you have subscribed leaves the Lantern server, you will receive `Opc
 | 7 | USER_LEFT | Server -> Client |
 | 8 | USER_JOINED | Server -> Client |
 | 9 | DISCONNECT | Server -> Client |
+| 10 | STORAGE_UPDATE | Server -> Client |
 
 ##### Example Payloads
 
@@ -334,6 +350,210 @@ If any user you have subscribed leaves the Lantern server, you will receive `Opc
     "d": {
       "reason": "Connection timed out."
     }
+  }
+  ```
+</details>
+
+<details>
+  <summary>
+    Opcode 10: Storage Update
+  </summary>
+
+  ```json
+  {
+    "t": "STORAGE_UPDATE",
+    "op": 10,
+    "d": {
+      // All key-value pairs for the user
+      "key": "value"
+    }
+  }
+  ```
+</details>
+
+---
+
+## KV Storage
+
+Lantern also offers a simple key-value storage system that can be accessed through the RESTful API, WebSocket or the Lantern bot itself.
+
+#### Use cases
+- Configuration values for your website
+- Dynamic data for your website/profile (e.g. current location)
+- User-specific data (e.g. user preferences)
+- Temporary data storage
+
+#### Limits
+1. Keys and values can only be strings (You can store JSON objects as strings)
+2. Values can be 30,000 characters maximum
+3. Keys must be alphanumeric (a-Z, A-Z, 0-9) and 255 characters max length
+4. You can only store up to 512 key-value pairs linked
+
+#### WebSocket
+
+You can access the KV storage through the WebSocket connection. The following opcodes are available for the KV storage:
+
+##### Opcode 10: Storage Update
+
+This opcode is sent when a key-value pair is created, updated or deleted.
+
+##### Payload
+
+```json
+{
+  "t": "STORAGE_UPDATE",
+  "op": 10,
+  "d": {
+    // All key-value pairs for the user
+    "key": "value"
+  }
+}
+```
+
+#### RESTful API
+
+For requests to the KV storage API, you will need to include the `Authorization` header with the value you get from the Lantern bot (use `/storage create token` command). The bot will provide you with a unique token that you can use to access the KV storage.
+
+Without the `Authorization` header, you can only access the data you have stored with the bot itself.
+
+##### GET `/api/v1/users/:user_id/storage`
+
+Retrieve all key-value pairs for a specific user.
+
+##### Parameters
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `user_id` | string | The ID of the user to retrieve the key-value pairs from. |
+
+##### Response
+
+<details>
+<summary>
+  Example Response
+</summary>
+  
+  ```json
+  {
+    "key1": "value1",
+    "key2": "value2"
+  }
+  ```
+</details>
+
+##### DELETE `/api/v1/users/:user_id/storage` (Requires `Authorization` header)
+
+Delete all key-value pairs for a specific user.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `user_id` | string | The ID of the user to delete the key-value pairs from. |
+
+##### Response
+
+<details>
+<summary>
+  Example Response
+</summary>
+
+  ```json
+  {
+    "success": true
+  }
+  ```
+</details>
+
+##### GET `/api/v1/users/:user_id/storage/:key`
+
+Retrieve the value of a key for a specific user.
+
+##### Parameters
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `user_id` | string | The ID of the user to retrieve the key from. |
+| `key` | string | The key to retrieve the value for. |
+
+##### Response
+<details>
+<summary>
+  Example Response
+</summary>
+
+  ```json
+  {
+    "value": "example_value"
+  }
+  ```
+</details>
+
+##### PUT `/api/v1/users/:user_id/storage/:key` (Requires `Authorization` header)
+
+Create a new key-value pair for a specific user.
+
+##### Parameters
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `user_id` | string | The ID of the user to create the key-value pair for. |
+| `key` | string | The key to create. |
+| `value` | string | The value to assign to the key. |
+
+##### Response
+<details>
+<summary>
+  Example Response
+</summary>
+
+  ```json
+  {
+    "success": true
+  }
+  ```
+</details>
+
+##### PATCH `/api/v1/users/:user_id/storage/:key` (Requires `Authorization` header)
+
+Update the value of a key for a specific user.
+
+##### Parameters
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `user_id` | string | The ID of the user to update the key-value pair for. |
+| `key` | string | The key to update. |
+| `value` | string | The new value to assign to the key. |
+
+##### Response
+<details>
+<summary>
+  Example Response
+</summary>
+
+  ```json
+  {
+    "success": true
+  }
+  ```
+</details>
+
+##### DELETE `/api/v1/users/:user_id/storage/:key` (Requires `Authorization` header)
+
+Delete a key-value pair for a specific user.
+
+##### Parameters
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `user_id` | string | The ID of the user to delete the key-value pair from. |
+| `key` | string | The key to delete. |
+
+##### Response
+<details>
+<summary>
+  Example Response
+</summary>
+
+  ```json
+  {
+    "success": true
   }
   ```
 </details>
