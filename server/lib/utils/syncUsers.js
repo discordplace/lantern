@@ -1,4 +1,5 @@
 const User = require('@/models/User');
+const Storage = require('@/models/Storage');
 
 async function syncUsers() {
   const guild = client.guilds.cache.get(config.base_guild_id);
@@ -18,6 +19,10 @@ async function syncUsers() {
   if (usersToDelete.length > 0) {
     await User.deleteMany({ id: { $in: usersToDelete.map(user => user.id) } })
       .then(() => logger.database(`${usersToDelete.length} users have been removed from the database.`))
+      .catch(error => logger.error(error));
+
+    await Storage.deleteMany({ userId: { $in: usersToDelete.map(user => user.id) } })
+      .then(() => logger.database(`${usersToDelete.length} user storages have been removed from the database.`))
       .catch(error => logger.error(error));
   }
 }
