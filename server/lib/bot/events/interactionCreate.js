@@ -12,9 +12,23 @@ module.exports = async interaction => {
     const commandData = command.data[commandName];
     if (!commandData) return interaction.error('Command data not found. Please contact the developer.');
 
-    logger.bot(`User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandName}" in guild "${interaction.guild.name}" (${interaction.guild.id})`);
+    await commandData.execute.command(interaction, { subcommand, group });
+    
+    if (interaction.guild) logger.bot(`User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandName}" in guild "${interaction.guild.name}" (${interaction.guild.id}) which takes ${interaction.createdTimestamp - Date.now()} ms to execute.`);
+    else logger.bot(`User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandName}" in DMs which takes ${interaction.createdTimestamp - Date.now()} ms to execute.`);
+  }
 
-    return commandData.execute.command(interaction, { subcommand, group }); 
+  if (interaction.type === Discord.InteractionType.ApplicationCommandAutocomplete) {
+    addPrototypes(interaction);
+
+    const command = client.commands.get(interaction.commandName);
+    if (!command) return interaction.respondAutocomplete([]);
+
+    const { name: commandName, subcommand, group } = getCommandName(interaction);
+    const commandData = command.data[commandName];
+    if (!commandData?.execute?.autocomplete) return interaction.respondAutocomplete([]);
+
+    return commandData.execute.autocomplete(interaction, { subcommand, group });
   }
 };
 
@@ -23,8 +37,9 @@ function addPrototypes(interaction) {
     We're adding the following prototypes to the interaction object:
     - interaction.success(content: string, options: object): Promise<void>
     - interaction.error(content: string, options: object): Promise<void>
+    - interaction.respondAutocomplete(data: object[]): Promise<void>
 
-    These prototypes will allow us to easily send success and error messages to the user in commands 
+    These prototypes will allow us to easily send success, error, and autocomplete responses in commands 
     without having to repeat the same code over and over again in each command file.
   */
 
@@ -58,5 +73,23 @@ function addPrototypes(interaction) {
         .filter(option => option !== 'ephemeral')
         .reduce((acc, option) => ({ ...acc, [option]: options[option] }), {})
     });
+  };
+
+  interaction.respondAutocomplete = async data => {
+    if (data.length <= 0) return interaction.respond([
+      {
+        name: 'No results found.',
+        value: '7922e127-d29a-431e-8b6d-9d4901e77171'
+      }
+    ]);
+
+    // We're filtering the data based on the user's input.
+    const filteredData = data.filter(({ name }) => {
+      if (interaction.options.getFocused()) return String(name).toLowerCase().includes(interaction.options.getFocused().toLowerCase());
+      return true;
+    });
+
+    // Discord only allows us to send a maximum of 25 options in an autocomplete response.
+    interaction.respond(filteredData.slice(0, 25));
   };
 }
