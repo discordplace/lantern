@@ -23,6 +23,9 @@ async function createClient() {
     });
 
   client.once('ready', async () => {
+    const level = process.env.NODE_ENV === 'development' ? 'info' : 'warn';
+    logger[level](`Project is running in ${process.env.NODE_ENV} mode.`);
+
     logger.bot(`Logged in as ${client.user.tag}.`);
 
     global.client = client;
