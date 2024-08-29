@@ -4,7 +4,6 @@ const path = require('node:path');
 const { router } = require('express-file-routing');
 const morganMiddleware = require('@/lib/express/middlewares/morganMiddleware');
 const ws = require('express-ws');
-const cors = require('cors');
 
 async function createServer() {
   const options = {
@@ -26,9 +25,13 @@ async function createServer() {
   // Add middlewares
   app.use(morganMiddleware);
   app.use(compression());
-  app.use(cors({
-    origin: ['*']
-  }))
+
+  // Add 'Access-Control-Allow-Origin' header to the response to allow CORS
+  app.use((request, response, next) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+  });
+
   // Configure express-file-routing
   app.use('/', await router({
     directory: path.join(__dirname, 'routes'),
