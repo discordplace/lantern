@@ -41,10 +41,10 @@ Retrieve the data of users with the specified IDs.
 | ---- | ---- | ----------- |
 | `user_ids` | string | The IDs of the users to retrieve. |
 
->>> [!NOTE]
->>> - The `user_ids` parameter should be an array of user IDs. You should include this parameter multiple times for each user ID you want to retrieve.
->>> - The maximum number of user IDs you can retrieve at once is 50.
->>> - Example: `?user_ids=123456789012345678&user_ids=234567890123456789`
+> [!NOTE]
+> - The `user_ids` parameter should be an array of user IDs. You should include this parameter multiple times for each user ID you want to retrieve.
+> - The maximum number of user IDs you can retrieve at once is 50.
+> - Example: `?user_ids=123456789012345678&user_ids=234567890123456789`
 
 ##### Response
 <details>
