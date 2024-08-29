@@ -9,6 +9,7 @@ While Lantern is ready to use out-of-the-box without the need for any deployment
 ## Table of Contents
 
 - [API Docs](#api-docs)
+  - [**GET** `/api/v1/users`](#get-apiv1users)
   - [**GET** `/api/v1/users/:id`](#get-apiv1usersid)
   - [WebSocket](#websocket)
 - [KV Storage](#kv-storage)
@@ -30,6 +31,112 @@ While Lantern is ready to use out-of-the-box without the need for any deployment
 ---
 
 ## API Docs
+
+#### GET `/api/v1/users`
+
+Retrieve the data of users with the specified IDs.
+
+##### Parameters
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `user_ids` | string | The IDs of the users to retrieve. |
+
+>>> [!NOTE]
+>>> - The `user_ids` parameter should be an array of user IDs. You should include this parameter multiple times for each user ID you want to retrieve.
+>>> - The maximum number of user IDs you can retrieve at once is 50.
+>>> - Example: `?user_ids=123456789012345678&user_ids=234567890123456789`
+
+##### Response
+<details>
+<summary>
+  Example Response
+</summary>
+  
+  ```json
+  [
+    {
+      // User metadata object
+      "metadata": {
+        "id": "123456789012345678",
+        "username": "example",
+        "discriminator": "0",
+        "global_name": "example",
+        "avatar": "abcdef1234567890",
+        "avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.png",
+        "display_avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.png",
+        "bot": false,
+        "flags": {
+          "human_readable": ["Staff"],
+          "bitfield": 1
+        },
+        "monitoring_since": {
+          "unix": 1620000000,
+          "raw": "2021-05-03T00:00:00.000Z"
+        }
+      },
+      "status": "online",
+      // Active platforms object with current Spotify track
+      "active_platforms": {
+        "desktop": "online",
+        "mobile": "offline",
+        "web": "offline",
+        "spotify": {
+          "track_id": "abcdef1234567890",
+          "song": "example",
+          "artist": "example",
+          "album": "example",
+          "album_cover": "https://i.scdn.co/image/abcdef1234567890",
+          "start_time": {
+            "unix": 1620000000,
+            "raw": "2021-05-03T00:00:00.000Z"
+          },
+          "end_time": {
+            "unix": 1620000000,
+            "raw": "2021-05-03T00:00:00.000Z"
+          },
+          "time": {
+            "start_human_readable": "00:00",
+            "end_human_readable": "00:00"
+          }
+        }
+      },
+      // Array of user activities
+      "activities": [
+        {
+          "id": "abcdef1234567890",
+          "name": "example",
+          "type": "PLAYING",
+          "state": "example",
+          "details": "example",
+          "application_id": "123456789012345678",
+          "created_at": 1620000000,
+          "assets": {
+            "large_image": {
+              "hash": "abcdef1234567890",
+              "image_url": "https://cdn.discordapp.com/app-assets/123456789012345678/abcdef1234567890.png",
+              "text": "example"
+            },
+            "small_image": {
+              "hash": "abcdef1234567890",
+              "image_url": "https://cdn.discordapp.com/app-assets/123456789012345678/abcdef1234567890.png",
+              "text": "example"
+            }
+          },
+          "start_time": {
+            "unix": 1620000000,
+            "raw": "2021-05-03T00:00:00.000Z"
+          }
+        }
+      ],
+      // Key-value pairs for the user (if any)
+      "storage": {
+        "key": "value"
+      }
+    },
+    // Additional user objects
+  ]
+```
+</details>
 
 ##### GET `/api/v1/users/:id`
 
