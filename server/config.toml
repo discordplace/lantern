@@ -6,6 +6,7 @@ required_environment_variables = [
 
 application_id = '1253067981832061001'
 base_guild_id = '1253092552404631582'
+max_bulk_get_users_size = 50
 
 [server]
 port = 3003
