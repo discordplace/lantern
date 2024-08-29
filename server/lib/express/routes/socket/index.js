@@ -24,75 +24,75 @@ module.exports = {
       const { op, d: data } = JSON.parse(message);
       
       switch (op) {
-      case Opcodes.INIT:
-        // Clear timeout since the connection is now established.
-        clearTimeout(timeout);
+        case Opcodes.INIT:
+          // Clear timeout since the connection is now established.
+          clearTimeout(timeout);
 
-        var error = getZodError(data);
-        if (error) return disconnect(websocket, null, error);
+          var error = getZodError(data);
+          if (error) return disconnect(websocket, null, error);
 
-        var subscribed_to_all = data.user_id === 'ALL';
+          var subscribed_to_all = data.user_id === 'ALL';
 
-        if (data.user_id && !subscribed_to_all) {
-          const user = await User.findOne({ id: data.user_id });
-          if (!user) return disconnect(websocket, null, 'User not found.');
-        }
+          if (data.user_id && !subscribed_to_all) {
+            const user = await User.findOne({ id: data.user_id });
+            if (!user) return disconnect(websocket, null, 'User not found.');
+          }
 
-        if (data.user_ids) {
-          var users = await User.find({ id: { $in: data.user_ids } });
-          if (users.length !== data.user_ids.length) return disconnect(websocket, null, `${data.user_ids.filter(id => !users.some(user => user.id === id)).join(', ')} user(s) not found.`);
-        }
+          if (data.user_ids) {
+            var users = await User.find({ id: { $in: data.user_ids } });
+            if (users.length !== data.user_ids.length) return disconnect(websocket, null, `${data.user_ids.filter(id => !users.some(user => user.id === id)).join(', ')} user(s) not found.`);
+          }
               
-        ActiveSockets.set(id, {
-          instance: websocket,
-          lastHeartbeat: Date.now(),
-          subscribed: subscribed_to_all ? 'ALL' : (data.user_ids || [data.user_id])
-        });
+          ActiveSockets.set(id, {
+            instance: websocket,
+            lastHeartbeat: Date.now(),
+            subscribed: subscribed_to_all ? 'ALL' : (data.user_ids || [data.user_id])
+          });
 
-        logger.socket(`New websocket connection: ${id}`);
+          logger.socket(`New websocket connection: ${id}`);
 
-        // Acknowledge the connection.
-        if (subscribed_to_all) {
-          const users = await User.find();
-          const storages = await Storage.find({ userId: { $in: users.map(user => user.id) } });
-          
-          const userData = users.map(user => createUserData(user.id, storages.find(storage => storage.userId === user.id)?.kv || {}));
-          
-          send(websocket, Opcodes.INIT_ACK, userData);
-
-          logger.socket(`Websocket connection ${id} subscribed to all users.`);
-        } else {
-          if (data.user_id) {
-            const user_storage = await Storage.findOne({ userId: data.user_id });
-            
-            send(websocket, Opcodes.INIT_ACK, createUserData(data.user_id, user_storage?.kv || {}));
-
-            logger.socket(`Websocket connection ${id} subscribed to user ${data.user_id}.`);
-          } else {
-            const users = await User.find({ id: { $in: data.user_ids } });
+          // Acknowledge the connection.
+          if (subscribed_to_all) {
+            const users = await User.find();
             const storages = await Storage.find({ userId: { $in: users.map(user => user.id) } });
-            
+          
             const userData = users.map(user => createUserData(user.id, storages.find(storage => storage.userId === user.id)?.kv || {}));
-            
+          
             send(websocket, Opcodes.INIT_ACK, userData);
 
-            logger.socket(`Websocket connection ${id} subscribed to users ${data.user_ids.join(', ')}.`);
+            logger.socket(`Websocket connection ${id} subscribed to all users.`);
+          } else {
+            if (data.user_id) {
+              const user_storage = await Storage.findOne({ userId: data.user_id });
+            
+              send(websocket, Opcodes.INIT_ACK, createUserData(data.user_id, user_storage?.kv || {}));
+
+              logger.socket(`Websocket connection ${id} subscribed to user ${data.user_id}.`);
+            } else {
+              const users = await User.find({ id: { $in: data.user_ids } });
+              const storages = await Storage.find({ userId: { $in: users.map(user => user.id) } });
+            
+              const userData = users.map(user => createUserData(user.id, storages.find(storage => storage.userId === user.id)?.kv || {}));
+            
+              send(websocket, Opcodes.INIT_ACK, userData);
+
+              logger.socket(`Websocket connection ${id} subscribed to users ${data.user_ids.join(', ')}.`);
+            }
           }
-        }
 
-        break;
-      case Opcodes.HEARTBEAT:
-        if (!ActiveSockets.has(id)) return disconnect(websocket, null, 'Invalid websocket connection.');
+          break;
+        case Opcodes.HEARTBEAT:
+          if (!ActiveSockets.has(id)) return disconnect(websocket, null, 'Invalid websocket connection.');
 
-        ActiveSockets.set(id, {
-          instance: websocket,
-          lastHeartbeat: Date.now(),
-          subscribed: ActiveSockets.get(id).subscribed
-        });
+          ActiveSockets.set(id, {
+            instance: websocket,
+            lastHeartbeat: Date.now(),
+            subscribed: ActiveSockets.get(id).subscribed
+          });
 
-        send(websocket, Opcodes.HEARTBEAT_ACK);
+          send(websocket, Opcodes.HEARTBEAT_ACK);
 
-        break;
+          break;
       }
     });
   }

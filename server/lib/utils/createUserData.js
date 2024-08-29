@@ -51,62 +51,62 @@ function createUserData(user_id, kv) {
 
   for (const activity of member.presence?.activities || []) {
     switch (activity.name) {
-    case 'Custom Status':
-      parsedActivites.push({
-        name: activity.name,
-        type: activity.type,
-        emoji: activity.emoji,
-        text: activity.state,
-        start_time: {
-          unix: activity.createdTimestamp,
-          raw: activity.createdAt
-        },
-        end_time: activity.timestamps?.end ? {
-          unix: activity.timestamps.end.getTime(),
-          raw: activity.timestamps.end
-        } : null
-      });
-      break;
-    default:
-      var activityData = {
-        id: activity.id,
-        name: activity.name,
-        type: activity.type,
-        state: activity.state,
-        details: activity.details,
-        application_id: activity.applicationID,
-        created_at: activity.createdTimestamp
-      };
-
-      if (activity.assets) {
-        Object.assign(activityData, {
-          assets: {
-            large_image: {
-              hash: activity.assets.largeImage,
-              image_url: activity.assets.largeImageURL(),
-              text: activity.assets.largeText
-            },
-            small_image: {
-              hash: activity.assets.smallImage,
-              image_url: activity.assets.smallImageURL(),
-              text: activity.assets.smallText
-            }
-          }
-        });
-      }
-
-      if (activity.timestamps) {
-        Object.assign(activityData, {
+      case 'Custom Status':
+        parsedActivites.push({
+          name: activity.name,
+          type: activity.type,
+          emoji: activity.emoji,
+          text: activity.state,
           start_time: {
-            unix: activity.timestamps.start.getTime(),
-            raw: activity.timestamps.start
-          }
+            unix: activity.createdTimestamp,
+            raw: activity.createdAt
+          },
+          end_time: activity.timestamps?.end ? {
+            unix: activity.timestamps.end.getTime(),
+            raw: activity.timestamps.end
+          } : null
         });
-      }
-      
-      parsedActivites.push(activityData);
+        break;
+      default:
+        var activityData = {
+          id: activity.id,
+          name: activity.name,
+          type: activity.type,
+          state: activity.state,
+          details: activity.details,
+          application_id: activity.applicationID,
+          created_at: activity.createdTimestamp
+        };
 
-      break;
+        if (activity.assets) {
+          Object.assign(activityData, {
+            assets: {
+              large_image: {
+                hash: activity.assets.largeImage,
+                image_url: activity.assets.largeImageURL(),
+                text: activity.assets.largeText
+              },
+              small_image: {
+                hash: activity.assets.smallImage,
+                image_url: activity.assets.smallImageURL(),
+                text: activity.assets.smallText
+              }
+            }
+          });
+        }
+
+        if (activity.timestamps) {
+          Object.assign(activityData, {
+            start_time: {
+              unix: activity.timestamps.start.getTime(),
+              raw: activity.timestamps.start
+            }
+          });
+        }
+      
+        parsedActivites.push(activityData);
+
+        break;
     }
   }
 
