@@ -8,6 +8,7 @@ const axios = require('axios');
 const badges = require('@/lib/constants/badges');
 const status = require('@/lib/constants/status');
 const Discord = require('discord.js');
+const he = require('he');
 
 function activityElapsedTime(activity) {
   const startTime = new Date(activity.start_time.raw);
@@ -125,7 +126,7 @@ async function createSvg(userData, options = {}) {
               background-color: ${variables.colors.background};
             ">
               <img 
-                alt="${userData.metadata.username}'s avatar"
+                alt="${he.escape(userData.metadata.username)}'s avatar"
                 loading="lazy" 
                 width="128" 
                 height="128" 
@@ -190,7 +191,7 @@ async function createSvg(userData, options = {}) {
                     color: ${variables.colors.text.primary};
                   `}
                 ">
-                  @${userData.metadata.username}
+                  @${he.escape(userData.metadata.username)}
                 </div>
 
                 ${!options.hideBadges ? `
@@ -222,7 +223,7 @@ async function createSvg(userData, options = {}) {
                   font-weight: 600;
                   color: ${variables.colors.text.primary};
                 ">
-                  ${userData.metadata.global_name}
+                  ${he.escape(userData.metadata.global_name)}
                 </div>
               ` : ''}
             </div>
@@ -338,7 +339,7 @@ async function createSvg(userData, options = {}) {
                         font-weight: 600;
                         color: ${variables.colors.text.primary};
                       ">
-                        ${userData.activities[0].name}
+                        ${he.escape(userData.activities[0].name)}
                       </div>
 
                       ${userData.activities[0].details ? `
@@ -350,7 +351,7 @@ async function createSvg(userData, options = {}) {
                           max-width: 200px;
                           font-size: 0.875rem;
                         ">
-                          ${userData.activities[0].details}
+                          ${he.escape(userData.activities[0].details)}
                         </div>
                       ` : ''}
 
@@ -362,7 +363,7 @@ async function createSvg(userData, options = {}) {
                           text-overflow: ellipsis;
                           font-size: 0.875rem;
                         ">
-                          ${userData.activities[0].state}
+                          ${he.escape(userData.activities[0].state)}
                         </div>
                       ` : ''}
 
