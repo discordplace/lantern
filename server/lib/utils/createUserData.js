@@ -130,7 +130,7 @@ function createUserData(user_id, kv) {
         raw: member.joinedAt
       }
     },
-    status: member.presence?.status,
+    status: member.presence?.status || 'offline',
     active_platforms: activePlatforms,
     activities: parsedActivites,
     storage: kv
