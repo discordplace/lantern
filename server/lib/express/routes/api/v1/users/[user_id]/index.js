@@ -46,10 +46,10 @@ module.exports = {
       const guild = client.guilds.cache.get(config.base_guild_id);
       const member = guild.members.cache.get(user_id);
 
-      if (!member) return response.status(404).json({ error: `User ${user_id} is not being monitoring by Lantern.` });
+      if (!member) return response.status(404).json({ error: `User ${user_id} is not being monitored by Lantern.` });
 
       const user = await User.findOne({ id: user_id }).lean();
-      if (!user) return response.status(404).json({ error: `User ${user_id} is not being monitoring by Lantern.` });
+      if (!user) return response.status(404).json({ error: `User ${user_id} is not being monitored by Lantern.` });
    
       const user_storage = await Storage.findOne({ userId: user_id });
 
