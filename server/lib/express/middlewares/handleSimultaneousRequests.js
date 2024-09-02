@@ -14,6 +14,9 @@ const generateRequestKey = (request) => {
 };
 
 const handleSimultaneousRequests = async (request, response, next) => {
+  const { method } = request;
+  if (!['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) next();
+
   const requestKey = generateRequestKey(request);
 
   try {
