@@ -18,6 +18,8 @@ async function findIssueNumber(headCommitId) {
 
     const sortedEvents = events.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
     const mergeEvent = sortedEvents.find(event => event.event === 'merged' && event.commit_id === headCommitId);
+    if (!mergeEvent) return null;
+
     const issueNumber = mergeEvent.issue.number;
 
     return issueNumber;
@@ -28,6 +30,9 @@ async function findIssueNumber(headCommitId) {
 }
 
 async function isFlagPresent(flag, headCommitId) {
+  const issueNumber = await findIssueNumber(headCommitId);
+  if (!issueNumber) return false;
+
   const { Octokit } = await import('@octokit/core');
   const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
@@ -35,7 +40,7 @@ async function isFlagPresent(flag, headCommitId) {
     const { data: labels } = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/labels', {
       owner: process.env.GITHUB_OWNER,
       repo: process.env.GITHUB_REPO,
-      issue_number: await findIssueNumber(headCommitId),
+      issue_number: issueNumber,
       headers: {
         'X-GitHub-Api-Version': '2022-11-28'
       }
