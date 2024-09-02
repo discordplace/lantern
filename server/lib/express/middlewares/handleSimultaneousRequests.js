@@ -1,7 +1,7 @@
 const crypto = require('node:crypto');
 const AsyncLock = require('async-lock');
 
-const lock = new AsyncLock({ timeout: 5000 });
+const lock = new AsyncLock();
 
 const generateRequestKey = (request) => {
   const { method, originalUrl, body } = request;
