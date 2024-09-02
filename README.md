@@ -705,6 +705,9 @@ KV_TOKEN_ENCRYPTION_SECRET=your_256_bit_encryption_secret
 
 # For GitHub Auto Deploy (not needed for local development)
 GITHUB_WEBHOOK_SECRET=your_github_webhook_secret
+GITHUB_TOKEN='your_github_token'
+GITHUB_OWNER='your_repository_owner_name'
+GITHUB_REPO='your_repository_name'
 
 # Logtail Source Token (for logging, not needed for local development)
 LOGTAIL_SOURCE_TOKEN=your_logtail_source_token
@@ -712,6 +715,9 @@ LOGTAIL_SOURCE_TOKEN=your_logtail_source_token
 
 > [!NOTE]
 > - `KV_TOKEN_ENCRYPTION_SECRET` should be a 256-bit encryption secret that you generate. You can use a tool like [this](https://asecuritysite.com/encryption/plain). This secret is used to encrypt the KV storage token. So make sure to keep it secure.
+> - `GITHUB_TOKEN` should be a GitHub Fine-grained Personal Access Token with the read scope to `Pull Requests` and `Issues` for the repository.
+> - `GITHUB_OWNER` should be the owner of the repository (e.g. `discordplace`).
+> - `GITHUB_REPO` should be the name of the repository (e.g. `lantern`).
 
 5. Fill these configuration values in the `config.toml` file with your own values:
 
