@@ -68,6 +68,11 @@ module.exports = {
 
     websocket.on('message', async message => {
       const { op, d: data } = JSON.parse(message);
+
+      if (!Object.values(Opcodes).includes(op)) return disconnect(websocket, null, 'Invalid opcode.');
+      
+      // Check if the opcode is allowed to be sent to the server
+      if (!config.server.socket.client_allowed_opcodes.includes(op)) return disconnect(websocket, null, 'You are not allowed to send this opcode to the server.');
       
       switch (op) {
         case Opcodes.INIT:
