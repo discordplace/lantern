@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 const AsyncLock = require('async-lock');
 
 const lock = new AsyncLock({ timeout: 5000 });
