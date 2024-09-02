@@ -13,3 +13,6 @@
 - name: 'Dependabot: Patch'
   color: 'FFD700'
   description: Pull requests opened by Dependabot to update dependencies.
+- Name: 'Flags: Install Dependencies'
+  color: 'FFB958'
+  description: Used to identify pull requests that require the run of `npm install`.

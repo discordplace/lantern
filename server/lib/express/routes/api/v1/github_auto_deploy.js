@@ -3,6 +3,51 @@ const crypto = require('node:crypto');
 const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 
+async function findIssueNumber(headCommitId) {
+  const { Octokit } = await import('@octokit/core');
+  const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+
+  try {
+    const { data: events } = await octokit.request('GET /repos/{owner}/{repo}/issues/events', {
+      owner: process.env.GITHUB_OWNER,
+      repo: process.env.GITHUB_REPO,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    });
+
+    const sortedEvents = events.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    const mergeEvent = sortedEvents.find(event => event.event === 'merged' && event.commit_id === headCommitId);
+    const issueNumber = mergeEvent.issue.number;
+
+    return issueNumber;
+  } catch (error) {
+    logger.error('Error while fetching issue number:', error);
+    return null;
+  }
+}
+
+async function isFlagPresent(flag, headCommitId) {
+  const { Octokit } = await import('@octokit/core');
+  const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+
+  try {
+    const { data: labels } = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/labels', {
+      owner: process.env.GITHUB_OWNER,
+      repo: process.env.GITHUB_REPO,
+      issue_number: await findIssueNumber(headCommitId),
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    });
+
+    return labels.some(label => label.name === flag);
+  } catch (error) {
+    logger.error('Error while checking if flag is present:', error);
+    return false;
+  }
+}
+
 module.exports = {
   post: [
     bodyParser.json(),
@@ -38,26 +83,12 @@ module.exports = {
         if (stderr) logger.info(stderr);
 
         logger.info('Pull successful.');
-        
-        const isFlagPresent = flag => request.body.commits.some(commit => commit.message.includes(`flags:${flag}`));
 
-        if (isFlagPresent('installDependencies')) {
+        const installDependencies = await isFlagPresent('Flags: Install Dependencies', request.body.head_commit.id).catch(() => null);
+        if (installDependencies) {
           logger.info('There are requests to install dependencies. Installing..');
 
           const { stdout, stderr } = await exec('pnpm install');
-          logger.info(stdout);
-          if (stderr) logger.info(stderr);
-        }
-
-        if (isFlagPresent('installGlobalDependencies')) {
-          logger.info('There are requests to install global dependencies. Installing..');
-
-          const shouldBeInstalled = request.body.commits.filter(commit => commit.message.includes('flags:installGlobalDependencies')).map(commit => {
-            const dependencies = commit.message.match(/installGlobalDependencies:([\w\s-]+)/)[1].split(' ');
-            return dependencies;
-          }).flat();
-
-          const { stdout, stderr } = await exec(`npm install -g ${shouldBeInstalled.join(' ')}`);
           logger.info(stdout);
           if (stderr) logger.info(stderr);
         }
