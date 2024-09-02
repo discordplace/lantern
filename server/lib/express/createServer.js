@@ -3,6 +3,7 @@ const compression = require('compression');
 const path = require('node:path');
 const { router } = require('express-file-routing');
 const morganMiddleware = require('@/lib/express/middlewares/morganMiddleware');
+const handleSimultaneousRequests = require('@/lib/express/middlewares/handleSimultaneousRequests');
 const ws = require('express-ws');
 
 async function createServer() {
@@ -25,6 +26,7 @@ async function createServer() {
   // Add middlewares
   app.use(morganMiddleware);
   app.use(compression());
+  app.use(handleSimultaneousRequests);
 
   // Add 'Access-Control-Allow-Origin' header to the response to allow CORS
   app.use((request, response, next) => {
