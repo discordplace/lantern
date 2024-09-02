@@ -17,6 +17,9 @@ importers:
       '@logtail/winston':
         specifier: ^0.4.21
         version: 0.4.21(winston@3.13.0)
+      async-lock:
+        specifier: ^1.4.1
+        version: 1.4.1
       axios:
         specifier: ^1.7.2
         version: 1.7.2
@@ -262,6 +265,9 @@ packages:
 
   array-flatten@1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
+
+  async-lock@1.4.1:
+    resolution: {integrity: sha512-Az2ZTpuytrtqENulXwO3GGv1Bztugx6TT37NIo7imr/Qo0gsYiGtSdBa2B6fsXhTpVZDNfu1Qn3pk531e3q+nQ==}
 
   async@3.2.5:
     resolution: {integrity: sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==}
@@ -1373,6 +1379,8 @@ snapshots:
   argparse@2.0.1: {}
 
   array-flatten@1.1.1: {}
+
+  async-lock@1.4.1: {}
 
   async@3.2.5: {}
 
