@@ -305,6 +305,8 @@ If any user you have subscribed to updates their presence, you will receive `Opc
 
 If any user you have subscribed leaves the Lantern server, you will receive `Opcode 7: User Left` with the user ID in the `d` field. (when subscribing to multiple users, you will receive this for each user that leaves, if no users are left, you will receive `Opcode 9: Disconnect`)
 
+Additionally, if you want to add or remove a user from your subscription, you can also send `Opcode 12: Subscribe` and `Opcode 14: Unsubscribe` respectively. Note that, if you remove all users from your subscription, you will receive `Opcode 9: Disconnect`.
+
 ##### List of Opcodes
 | Opcode | Description | Type |
 | ------ | ----------- | ---- |
@@ -318,6 +320,11 @@ If any user you have subscribed leaves the Lantern server, you will receive `Opc
 | 8 | USER_JOINED | Server -> Client |
 | 9 | DISCONNECT | Server -> Client |
 | 10 | STORAGE_UPDATE | Server -> Client |
+| 11 | ERROR | Server -> Client |
+| 12 | SUBSCRIBE | Client -> Server |
+| 13 | SUBSCRIBE_ACK | Server -> Client |
+| 14 | UNSUBSCRIBE | Client -> Server |
+| 15 | UNSUBSCRIBE_ACK | Server -> Client |
 
 ##### Example Payloads
 
@@ -344,7 +351,6 @@ If any user you have subscribed leaves the Lantern server, you will receive `Opc
 
   ```json
   {
-    "t": "INIT",
     "op": 2,
     "d": {
       "user_id": "123456789012345678"
@@ -474,6 +480,78 @@ If any user you have subscribed leaves the Lantern server, you will receive `Opc
       // All key-value pairs for the user
       "key": "value"
     }
+  }
+  ```
+</details>
+
+<details>
+  <summary>
+    Opcode 11: Error
+  </summary>
+
+  ```json
+  {
+    "t": "ERROR",
+    "op": 11,
+    "d": {
+      "message": "Something went wrong."
+    }
+  }
+  ```
+</details>
+
+<details>
+  <summary>
+    Opcode 12: Subscribe
+  </summary>
+
+  ```json
+  {
+    "op": 12,
+    "d": {
+      "user_id": "123456789012345678"
+    }
+  }
+  ```
+</details>
+
+<details>
+  <summary>
+    Opcode 13: Subscribe Acknowledgement
+  </summary>
+
+  ```json
+  {
+    "t": "SUBSCRIBE_ACK",
+    "op": 13
+  }
+  ```
+</details>
+
+<details>
+  <summary>
+    Opcode 14: Unsubscribe
+  </summary>
+
+  ```json
+  {
+    "op": 14,
+    "d": {
+      "user_id": "123456789012345678"
+    }
+  }
+  ```
+</details>
+
+<details>
+  <summary>
+    Opcode 15: Unsubscribe Acknowledgement
+  </summary>
+
+  ```json
+  {
+    "t": "UNSUBSCRIBE_ACK",
+    "op": 15
   }
   ```
 </details>
