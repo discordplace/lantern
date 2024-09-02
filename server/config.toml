@@ -17,6 +17,10 @@ maxpayload = 1024
 clienttracking = true
 keepalive = true
 
+# Opcodes that the server can receive from the client
+# INIT | HEARTBEAT | SUBSCRIBE | UNSUBSCRIBE
+client_allowed_opcodes = [2, 4, 12, 14]
+
 [server.socket.opcodes]
 HELLO = 1
 INIT = 2
