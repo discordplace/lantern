@@ -511,6 +511,24 @@ Additionally, if you want to add or remove a user from your subscription, you ca
     }
   }
   ```
+
+  ```json
+  {
+    "op": 12,
+    "d": {
+      "user_ids": ["123456789012345678", "234567890123456789"]
+    }
+  }
+  ```
+
+  ```json
+  {
+    "op": 12,
+    "d": {
+      "user_id": "All"
+    }
+  }
+  ```
 </details>
 
 <details>
@@ -536,6 +554,24 @@ Additionally, if you want to add or remove a user from your subscription, you ca
     "op": 14,
     "d": {
       "user_id": "123456789012345678"
+    }
+  }
+  ```
+
+  ```json
+  {
+    "op": 14,
+    "d": {
+      "user_ids": ["123456789012345678", "234567890123456789"]
+    }
+  }
+  ```
+
+  ```json
+  {
+    "op": 14,
+    "d": {
+      "user_id": "All"
     }
   }
   ```
