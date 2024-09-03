@@ -493,9 +493,7 @@ Additionally, if you want to add or remove a user from your subscription, you ca
   {
     "t": "ERROR",
     "op": 11,
-    "d": {
-      "message": "Something went wrong."
-    }
+    "d": "Something went wrong."
   }
   ```
 </details>
