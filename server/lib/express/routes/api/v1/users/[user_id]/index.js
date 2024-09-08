@@ -56,7 +56,7 @@ module.exports = {
       const createdUserData = createUserData(user_id, user_storage?.kv || {});
 
       if (svg == 1) {
-        response.setHeader('Cache-Control', 'no-cache');
+        response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
         response.setHeader('Content-Type', 'image/svg+xml');
         response.setHeader('content-security-policy', 'default-src \'none\'; img-src * data:; style-src \'unsafe-inline\'');
 
@@ -83,9 +83,6 @@ module.exports = {
             }, {})
           }
         );
-
-        // Disable caching
-        response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 
         return response.send(svg);
       }
