@@ -84,9 +84,6 @@ module.exports = {
           }
         );
 
-        // Set CSP headers to allow google fonts being loaded
-        response.setHeader('content-security-policy', 'default-src \'none\'; img-src * data:; style-src \'unsafe-inline\' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;');
-
         // Disable caching
         response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 
