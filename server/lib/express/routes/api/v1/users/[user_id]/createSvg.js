@@ -401,7 +401,7 @@ async function createSvg(userData, options = {}) {
                 font-weight: 600;
                 color: ${variables.colors.text.primary};
               ">
-                No Activity
+                ${options.noActivityTitle}
               </div>
 
               <div style="
@@ -412,7 +412,7 @@ async function createSvg(userData, options = {}) {
                 font-weight: 500;
                 color: ${variables.colors.text.secondary};
               ">
-                User is not currently doing anything.
+                ${options.noActivityMessage}
               </div>
             </div>
           `}

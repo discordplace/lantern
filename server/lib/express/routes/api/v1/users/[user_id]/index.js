@@ -38,6 +38,14 @@ module.exports = {
       .optional()
       .isNumeric().withMessage('hideActivity must be a number.')
       .isIn([0, 1]).withMessage('hideActivity must be either 0 or 1.'),
+    query('noActivityTitle')
+      .optional()
+      .isString().withMessage('noActivityTitle must be a string.')
+      .isLength({ min: 1, max: 64 }).withMessage('noActivityTitle must be 1-64 characters long.'),
+    query('noActivityMessage')
+      .optional()
+      .isString().withMessage('noActivityMessage must be a string.')
+      .isLength({ min: 1, max: 256 }).withMessage('noActivityMessage must be 1-256 characters long.'),
     validateRequest,
     async (request, response) => {
       const { user_id } = request.params;
@@ -66,7 +74,9 @@ module.exports = {
           hideGlobalName: false,
           hideStatus: false,
           hideBadges: false,
-          hideActivity: false
+          hideActivity: false,
+          noActivityTitle: 'No Activity',
+          noActivityMessage: 'User is not currently doing anything.'
         };
 
         const svg = await createSvg(
