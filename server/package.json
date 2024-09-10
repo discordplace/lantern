@@ -11,7 +11,8 @@
     "bot:unregisterCommands": "cross-env NODE_ENV=production node -r dotenv/config -r module-alias/register -r ./scripts/loadConfig -r ./scripts/loadLogger -r ./scripts/checkEnvironmentVariables -r ./scripts/handleUncaughtExceptions ./scripts/unregisterCommands.js"
   },
   "contributors": [
-    "chimpdev <skyhancloud@gmail.com>"
+    "chimpdev <skyhancloud@gmail.com>",
+    "emirhan <emirhan@duck.com>"
   ],
   "license": "ISC",
   "repository": {
