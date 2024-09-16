@@ -34,7 +34,10 @@ async function createServer() {
     next();
   });
 
-  // Create the router
+  /*
+    Configure the express-file-routing package
+    to automatically load routes from the 'routes' directory
+  */
   await createRouter(app, {
     directory: path.join(__dirname, 'routes'),
     additionalMethods: ['ws']
