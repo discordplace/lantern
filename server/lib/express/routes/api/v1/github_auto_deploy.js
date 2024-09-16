@@ -99,7 +99,7 @@ module.exports = {
         }
 
         logger.info('Auto deploy successful. Exiting process..');
-        response.sendStatus(201);
+        response.status(204).end();
         process.exit(0);
       } catch (error) {
         logger.error('Error while pulling from GitHub:', error);

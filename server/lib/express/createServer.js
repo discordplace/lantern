@@ -1,10 +1,10 @@
 const express = require('express');
 const compression = require('compression');
-const path = require('node:path');
-const { router } = require('express-file-routing');
+const { createRouter } = require('express-file-routing');
 const morganMiddleware = require('@/lib/express/middlewares/morganMiddleware');
 const handleSimultaneousRequests = require('@/lib/express/middlewares/handleSimultaneousRequests');
 const ws = require('express-ws');
+const path = require('node:path');
 
 async function createServer() {
   const options = {
@@ -34,11 +34,11 @@ async function createServer() {
     next();
   });
 
-  // Configure express-file-routing
-  app.use('/', await router({
+  // Create the router
+  await createRouter(app, {
     directory: path.join(__dirname, 'routes'),
     additionalMethods: ['ws']
-  }));
+  });
 
   app.use((request, response) => response.status(404).json({ error: 'Resource not found.' }));
 
