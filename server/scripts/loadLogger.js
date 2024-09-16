@@ -38,7 +38,7 @@ const defaultTransports = [
   })
 ];
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && process.env.LOGTAIL_SOURCE_TOKEN) {
   const logtail = new Logtail(process.env.LOGTAIL_SOURCE_TOKEN);
   const transport = new LogtailTransport(logtail, {
     level: highestLevel
