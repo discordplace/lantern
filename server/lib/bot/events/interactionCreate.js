@@ -1,4 +1,6 @@
 const getCommandName = require('@/utils/bot/getCommandName');
+const createUserData = require('@/utils/createUserData');
+const Storage = require('@/models/Storage');
 const Discord = require('discord.js');
 
 module.exports = async interaction => {
@@ -29,6 +31,21 @@ module.exports = async interaction => {
     if (!commandData?.execute?.autocomplete) return interaction.respondAutocomplete([]);
 
     return commandData.execute.autocomplete(interaction, { subcommand, group });
+  }
+
+  if (interaction.type === Discord.InteractionType.MessageComponent) {
+    // "My User Data" Button
+    if (interaction.customId === 'my-user-data') {
+      const storage = await Storage.findOne({ userId: interaction.user.id });
+      const data = createUserData(interaction.user.id, storage?.kv || {});
+
+      const embed = new Discord.EmbedBuilder()
+        .setFooter({ text: `${interaction.user.displayName}'s data`, iconURL: interaction.user.displayAvatarURL() })
+        .setColor('#adadad')
+        .setDescription(`\`\`\`json\n${JSON.stringify(data, null, 2)}\`\`\``);
+      
+      return interaction.reply({ embeds: [embed], ephemeral: true });
+    }
   }
 };
 
