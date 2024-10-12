@@ -32,7 +32,7 @@ While Lantern is ready to use out-of-the-box without the need for any deployment
 
 ## API Docs
 
-Lantern provides OpenAPI documentation for the RESTful API, which you can access at `https://lantern.rest//docs`. The API offers endpoints to retrieve user data and key-value storage.
+Lantern provides OpenAPI documentation for the RESTful API, which you can access at `https://lantern.rest/docs`. The API offers endpoints to retrieve user data and key-value storage.
 
 You can also refer to the swagger.json file in the repository for the API documentation. The API endpoints are as follows:
 
