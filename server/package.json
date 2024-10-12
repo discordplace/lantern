@@ -55,6 +55,7 @@
     "module-alias": "^2.2.3",
     "mongoose": "^8.4.3",
     "morgan": "^1.10.0",
+    "swagger-ui-express": "^5.0.1",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0",
     "zod": "^3.23.8"
