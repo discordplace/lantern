@@ -35,7 +35,6 @@
                 "type": "string",
                 "minLength": 17,
                 "maxLength": 19,
-                "format": "snowflake",
                 "pattern": "^[0-9]{17,19}$"
               }
             }
@@ -131,7 +130,6 @@
               "type": "number",
               "minLength": 17,
               "maxLength": 19,
-              "format": "snowflake",
               "pattern": "^[0-9]{17,19}$"
             }
           },
@@ -279,7 +277,6 @@
               "type": "number",
               "minLength": 17,
               "maxLength": 19,
-              "format": "snowflake",
               "pattern": "^[0-9]{17,19}$"
             }
           }
@@ -343,7 +340,6 @@
               "type": "number",
               "minLength": 17,
               "maxLength": 19,
-              "format": "snowflake",
               "pattern": "^[0-9]{17,19}$"
             }
           }
@@ -414,7 +410,6 @@
               "type": "number",
               "minLength": 17,
               "maxLength": 19,
-              "format": "snowflake",
               "pattern": "^[0-9]{17,19}$"
             }
           },
@@ -505,7 +500,6 @@
               "type": "number",
               "minLength": 17,
               "maxLength": 19,
-              "format": "snowflake",
               "pattern": "^[0-9]{17,19}$"
             }
           },
@@ -608,7 +602,6 @@
               "type": "number",
               "minLength": 17,
               "maxLength": 19,
-              "format": "snowflake",
               "pattern": "^[0-9]{17,19}$"
             }
           },
@@ -711,7 +704,6 @@
               "type": "number",
               "minLength": 17,
               "maxLength": 19,
-              "format": "snowflake",
               "pattern": "^[0-9]{17,19}$"
             }
           },
