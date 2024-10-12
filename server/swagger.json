@@ -774,34 +774,6 @@
           }
         }
       }
-    },
-    "/github_auto_deploy": {
-      "post": {
-        "summary": "GitHub auto deploy",
-        "description": "Internal endpoint for GitHub auto deploy.",
-        "tags": [
-          "Internal"
-        ],
-        "responses": {
-          "204": {
-            "description": "GitHub auto deploy successful."
-          }
-        }
-      }
-    },
-    "/docs": {
-      "get": {
-        "summary": "Swagger UI",
-        "description": "Serves the Swagger UI for the API documentation.",
-        "tags": [
-          "Internal"
-        ],
-        "responses": {
-          "200": {
-            "description": "Swagger UI served successfully."
-          }
-        }
-      }
     }
   },
   "tags": [],
