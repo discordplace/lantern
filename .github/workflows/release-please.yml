@@ -1,3 +1,5 @@
+name: Release Please
+
 on:
   workflow_dispatch:
   push:
@@ -11,9 +13,36 @@ permissions:
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    outputs:
+      server--tag_name: ${{ steps.release.outputs.server--tag_name}}
+      server--release_created: ${{ steps.release.outputs.server--release_created}}
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
-          token: ${{ secrets.GH_TOKEN }}
-          release-type: node
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+      - name: Print release outputs for debugging
+        continue-on-error: true
+        run: |
+          echo "Release outputs:"
+          echo "${{ toJson(steps.release.outputs) }}"
+
+  release-server:
+    if: ${{needs.release-please.outputs.server--release_created}}
+    runs-on: ubuntu-latest
+    needs: release-please
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node-env
+        with:
+          node-version: 18
+          cache-path: server/node_modules
+          cache-key: "${{hashFiles('server/package-lock.json')}}"
+          project: server
+      - run: zip -r server.zip server
+      - name: Upload Release Artifact
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ needs.release-please.outputs.server--tag_name }} server.zip
