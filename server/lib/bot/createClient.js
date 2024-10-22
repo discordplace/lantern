@@ -50,9 +50,9 @@ async function createClient() {
 
         const events = fetchEvents();
         client.events = events;
-    
+
         listenEvents(events);
-      
+
         logger.bot(`Fetched and listened to ${events.size} events.`);
       })
       .catch(error => logger.error(error));

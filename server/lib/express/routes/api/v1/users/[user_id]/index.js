@@ -58,7 +58,7 @@ module.exports = {
 
       const user = await User.findOne({ id: user_id }).lean();
       if (!user) return response.status(404).json({ error: `User ${user_id} is not being monitored by Lantern.` });
-   
+
       const user_storage = await Storage.findOne({ userId: user_id });
 
       const createdUserData = createUserData(user_id, user_storage?.kv || {});

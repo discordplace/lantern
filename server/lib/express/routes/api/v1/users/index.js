@@ -14,11 +14,11 @@ module.exports = {
     validateRequest,
     async (request, response) => {
       const { user_ids } = request.query;
-      
+
       if (user_ids.length === config.max_bulk_get_users_size) return response.status(400).json({ error: `You can only request up to ${config.max_bulk_get_users_size} users at once.` });
 
       const users = await User.find({ id: { $in: user_ids } }).lean();
-      
+
       const notMonitoredUsers = user_ids.filter(id => !users.some(({ id: user_id }) => user_id === id));
       if (notMonitoredUsers.length === user_ids.length) return response.status(404).json({ error: 'Users you requested are not monitored by Lantern.' });
 
@@ -26,6 +26,7 @@ module.exports = {
 
       const createdUsersData = users.map(user => {
         const user_storage = usersStorages.find(({ userId }) => userId === user.id);
+
         return createUserData(user.id, user_storage?.kv || {});
       });
 

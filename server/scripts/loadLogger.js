@@ -59,9 +59,11 @@ const logger = winston.createLogger({
 
       if (stack) {
         const paddedLevel = level.toUpperCase().padEnd(9, ' ');
+
         return `${chalk.gray(timestamp)} ${chalk.bold(color(paddedLevel))}${chalk.gray(stack)}`;
       } else {
         const paddedLevel = level.toUpperCase().padEnd(9, ' ');
+
         return `${chalk.gray(timestamp)} ${chalk.bold(color(paddedLevel))}${message}`;
       }
     })
@@ -71,7 +73,7 @@ const logger = winston.createLogger({
 
 global.logger = Object.keys(config.logger.levels)
   .reduce((acc, cur) => (
-    { 
+    {
       ...acc,
       [cur]: (...args) => logger[cur](args.map(arg => typeof arg === 'object' ? inspect(arg, { depth: 2 }) : arg).join(' '))
     }

@@ -4,9 +4,9 @@ const { promisify } = require('node:util');
 
 const lock = new AsyncLock();
 
-const generateRequestKey = (request) => {
+const generateRequestKey = request => {
   const { method, originalUrl, body } = request;
-  const bodyString = JSON.stringify(body); 
+  const bodyString = JSON.stringify(body);
   const requestIp = request.clientIp;
 
   // Create an MD5 hash from the method, URL, body, and IP address
@@ -15,7 +15,7 @@ const generateRequestKey = (request) => {
 
 const handleSimultaneousRequests = async (request, response, next) => {
   const { method } = request;
-  
+
   if (!['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) return next();
 
   const requestKey = generateRequestKey(request);

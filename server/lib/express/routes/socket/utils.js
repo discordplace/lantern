@@ -21,5 +21,4 @@ function disconnect(socket, id, error) {
   socket.close();
 }
 
-
 module.exports = { send, disconnect };

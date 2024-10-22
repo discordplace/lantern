@@ -10,7 +10,7 @@ module.exports = {
   json: new Discord.SlashCommandBuilder()
     .setName('storage')
     .setDescription('Key-value storage commands.')
-    
+
     .addSubcommandGroup(group => group.setName('create').setDescription('Key-value storage create commands.')
       .addSubcommand(subcommand => subcommand.setName('token').setDescription('Create a new token for your key-value storage.'))
       .addSubcommand(subcommand => subcommand.setName('data').setDescription('Create a new data for your key-value storage.')
@@ -32,13 +32,13 @@ module.exports = {
         .addStringOption(option => option.setName('key').setDescription('The key for the data.').setRequired(true).setAutocomplete(true))))
 
     .addSubcommand(subcommand => subcommand.setName('list').setDescription('List all the data in your key-value storage.'))
-    
+
     .addSubcommand(subcommand => subcommand.setName('reset').setDescription('Reset your key-value storage.')),
   data: {
     'storage create token': {
       execute: {
         command: async interaction => {
-          await interaction.deferReply({ ephemeral: interaction.guild ? true : false });
+          await interaction.deferReply({ ephemeral: !!interaction.guild });
 
           const user = await User.findOne({ id: interaction.user.id });
           if (!user) return interaction.error('We could not find your user data. This generally means you are not in our Discord server.');
@@ -65,7 +65,7 @@ module.exports = {
     'storage create data': {
       execute: {
         command: async interaction => {
-          await interaction.deferReply({ ephemeral: interaction.guild ? true : false });
+          await interaction.deferReply({ ephemeral: !!interaction.guild });
 
           let storage = await Storage.findOne({ userId: interaction.user.id });
           if (!storage) return interaction.error('We could not find your key-value storage data. Please create a storage first using `/storage create token`.');
@@ -89,7 +89,7 @@ module.exports = {
     'storage get token': {
       execute: {
         command: async interaction => {
-          await interaction.deferReply({ ephemeral: interaction.guild ? true : false });
+          await interaction.deferReply({ ephemeral: !!interaction.guild });
 
           const storage = await Storage.findOne({ userId: interaction.user.id });
           if (!storage) return interaction.error('We could not find your key-value storage data. Please create a storage first using `/storage create token`.');
@@ -107,7 +107,7 @@ module.exports = {
     'storage get data': {
       execute: {
         command: async interaction => {
-          await interaction.deferReply({ ephemeral: interaction.guild ? true : false });
+          await interaction.deferReply({ ephemeral: !!interaction.guild });
 
           const storage = await Storage.findOne({ userId: interaction.user.id });
           if (!storage) return interaction.error('We could not find your key-value storage data. Please create a storage first using `/storage create token`.');
@@ -132,7 +132,7 @@ module.exports = {
     'storage update data': {
       execute: {
         command: async interaction => {
-          await interaction.deferReply({ ephemeral: interaction.guild ? true : false });
+          await interaction.deferReply({ ephemeral: !!interaction.guild });
 
           const storage = await Storage.findOne({ userId: interaction.user.id });
           if (!storage) return interaction.error('We could not find your key-value storage data. Please create a storage first using `/storage create token`.');
@@ -154,7 +154,7 @@ module.exports = {
     'storage delete data': {
       execute: {
         command: async interaction => {
-          await interaction.deferReply({ ephemeral: interaction.guild ? true : false });
+          await interaction.deferReply({ ephemeral: !!interaction.guild });
 
           const storage = await Storage.findOne({ userId: interaction.user.id });
           if (!storage) return interaction.error('We could not find your key-value storage data. Please create a storage first using `/storage create token`.');
@@ -182,7 +182,7 @@ module.exports = {
     'storage list': {
       execute: {
         command: async interaction => {
-          await interaction.deferReply({ ephemeral: interaction.guild ? true : false });
+          await interaction.deferReply({ ephemeral: !!interaction.guild });
 
           const storage = await Storage.findOne({ userId: interaction.user.id });
           if (!storage) return interaction.error('We could not find your key-value storage data. Please create a storage first using `/storage create token`.');
@@ -192,7 +192,7 @@ module.exports = {
           const data = [...storage.kv.entries()]
             .map(([key, value]) => `"${key}": "${value.replace(/"/g, '\\"')}"`)
             .join(',\n  ');
-          
+
           // If the data is too long, send it as a file
           if (data.length > 1800) {
             const buffer = Buffer.from(`{\n  ${data}\n}`, 'utf-8');
@@ -209,7 +209,7 @@ module.exports = {
     'storage reset': {
       execute: {
         command: async interaction => {
-          await interaction.deferReply({ ephemeral: interaction.guild ? true : false });
+          await interaction.deferReply({ ephemeral: !!interaction.guild });
 
           const storage = await Storage.findOne({ userId: interaction.user.id });
           if (!storage) return interaction.error('We could not find your key-value storage data. Please create a storage first using `/storage create token`.');

@@ -15,7 +15,7 @@ module.exports = async interaction => {
     if (!commandData) return interaction.error('Command data not found. Please contact the developer.');
 
     await commandData.execute.command(interaction, { subcommand, group });
-    
+
     if (interaction.guild) logger.bot(`User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandName}" in guild "${interaction.guild.name}" (${interaction.guild.id}) which takes ${Date.now() - interaction.createdTimestamp} ms to execute.`);
     else logger.bot(`User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandName}" in DMs which takes ${Date.now() - interaction.createdTimestamp} ms to execute.`);
   }
@@ -43,7 +43,7 @@ module.exports = async interaction => {
         .setFooter({ text: `${interaction.user.displayName}'s data`, iconURL: interaction.user.displayAvatarURL() })
         .setColor('#adadad')
         .setDescription(`\`\`\`json\n${JSON.stringify(data, null, 2)}\`\`\``);
-      
+
       return interaction.reply({ embeds: [embed], ephemeral: true });
     }
   }
@@ -56,7 +56,7 @@ function addPrototypes(interaction) {
     - interaction.error(content: string, options: object): Promise<void>
     - interaction.respondAutocomplete(data: object[]): Promise<void>
 
-    These prototypes will allow us to easily send success, error, and autocomplete responses in commands 
+    These prototypes will allow us to easily send success, error, and autocomplete responses in commands
     without having to repeat the same code over and over again in each command file.
   */
 
@@ -103,6 +103,7 @@ function addPrototypes(interaction) {
     // We're filtering the data based on the user's input.
     const filteredData = data.filter(({ name }) => {
       if (interaction.options.getFocused()) return String(name).toLowerCase().includes(interaction.options.getFocused().toLowerCase());
+
       return true;
     });
 

@@ -15,7 +15,7 @@ function activityElapsedTime(activity) {
   const elapsedTime = dateFns.differenceInSeconds(new Date(), startTime);
   const humanReadable = dateFns.format(new Date(elapsedTime * 1000), 'mm:ss');
 
-  return humanReadable + ' elapsed';
+  return `${humanReadable} elapsed`;
 }
 
 async function createSvg(userData, options = {}) {
@@ -34,7 +34,7 @@ async function createSvg(userData, options = {}) {
   };
 
   const currentStatus = Object.values(userData.active_platforms).find(platform => platform.status !== 'offline') || 'offline';
-  
+
   let div_height = 225;
   let svg_height = 300;
 

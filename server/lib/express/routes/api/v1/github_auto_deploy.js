@@ -25,6 +25,7 @@ async function findIssueNumber(headCommitId) {
     return issueNumber;
   } catch (error) {
     logger.error('Error while fetching issue number:', error);
+
     return null;
   }
 }
@@ -49,6 +50,7 @@ async function isFlagPresent(flag, headCommitId) {
     return labels.some(label => label.name === flag);
   } catch (error) {
     logger.error('Error while checking if flag is present:', error);
+
     return false;
   }
 }
@@ -64,7 +66,7 @@ module.exports = {
         commit.modified.filter(file => file.startsWith('server/')).forEach(file => acc.push(file));
         commit.added.filter(file => file.startsWith('server/')).forEach(file => acc.push(file));
         commit.removed.filter(file => file.startsWith('server/')).forEach(file => acc.push(file));
-        
+
         return acc;
       }, []);
 
@@ -73,9 +75,9 @@ module.exports = {
       const hmac = crypto.createHmac('sha256', process.env.GITHUB_WEBHOOK_SECRET);
       hmac.update(JSON.stringify(request.body));
 
-      const digest = Buffer.from('sha256=' + hmac.digest('hex'), 'utf8');
+      const digest = Buffer.from(`sha256=${hmac.digest('hex')}`, 'utf8');
       const hash = Buffer.from(signature, 'utf8');
-      
+
       try {
         if (hash.length !== digest.length || !crypto.timingSafeEqual(digest, hash)) return response.status(403).json({ error: 'Invalid signature.' });
       } catch (error) {

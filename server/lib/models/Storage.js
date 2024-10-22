@@ -27,7 +27,7 @@ const StorageSchema = new Schema({
     type: Map,
     of: String,
     validate: {
-      validator: function(v) {
+      validator(v) {
         // Ensure that each key is alphanumeric and doesn't exceed 255 characters
         for (let key of v.keys()) {
           if (!/^[a-zA-Z0-9]+$/.test(key) || key.length > 255) {
@@ -41,6 +41,7 @@ const StorageSchema = new Schema({
             return false;
           }
         }
+
         return true;
       },
       message: () => 'Invalid key-value pair.'

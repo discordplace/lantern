@@ -5,6 +5,6 @@ function getZodError(data) {
   if (result.success) return null;
 
   return result.error.errors[0].message;
-} 
+}
 
 module.exports = getZodError;

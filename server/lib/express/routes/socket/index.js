@@ -11,7 +11,7 @@ global.ActiveSockets = new Discord.Collection();
 
 const Opcodes = config.server.socket.opcodes;
 
-async function subscribeToUsers(socket, socketId, { user_id, user_ids }) {  
+async function subscribeToUsers(socket, socketId, { user_id, user_ids }) {
   var subscribed_to_all = user_id === 'ALL';
 
   if (user_id && !subscribed_to_all) {
@@ -38,7 +38,7 @@ async function subscribeToUsers(socket, socketId, { user_id, user_ids }) {
       const already_subscribed = subscribed.filter(sub => user_ids.includes(sub));
       if (already_subscribed.length) return send(socket, Opcodes.ERROR, `You are already subscribed to user(s) ${already_subscribed.join(', ')}.`);
     }
-    
+
     ActiveSockets.set(socketId, {
       instance: socket,
       lastHeartbeat: Date.now(),
@@ -58,9 +58,9 @@ async function subscribeToUsers(socket, socketId, { user_id, user_ids }) {
 }
 
 module.exports = {
-  ws: (websocket) => {
+  ws: websocket => {
     send(websocket, Opcodes.HELLO, { heartbeat_interval: config.server.socket.heartbeat_interval });
-    
+
     // wait for INIT message, if not received, close the connection.
 
     let timeout = setTimeout(() => websocket.close(), 5000);
@@ -70,10 +70,10 @@ module.exports = {
       const { op, d: data } = JSON.parse(message);
 
       if (!Object.values(Opcodes).includes(op)) return disconnect(websocket, null, 'Invalid opcode.');
-      
+
       // Check if the opcode is allowed to be sent to the server
       if (!config.server.socket.client_allowed_opcodes.includes(op)) return disconnect(websocket, null, 'You are not allowed to send this opcode to the server.');
-      
+
       switch (op) {
         case Opcodes.INIT:
           // Clear timeout since the connection is now established.
@@ -92,29 +92,27 @@ module.exports = {
           if (subscribed_to_all) {
             const users = await User.find();
             const storages = await Storage.find({ userId: { $in: users.map(user => user.id) } });
-          
+
             const userData = users.map(user => createUserData(user.id, storages.find(storage => storage.userId === user.id)?.kv || {}));
-          
+
             send(websocket, Opcodes.INIT_ACK, userData);
 
             logger.socket(`Websocket connection ${id} subscribed to all users.`);
+          } else if (data.user_id) {
+            const user_storage = await Storage.findOne({ userId: data.user_id });
+
+            send(websocket, Opcodes.INIT_ACK, createUserData(data.user_id, user_storage?.kv || {}));
+
+            logger.socket(`Websocket connection ${id} subscribed to user ${data.user_id}.`);
           } else {
-            if (data.user_id) {
-              const user_storage = await Storage.findOne({ userId: data.user_id });
-            
-              send(websocket, Opcodes.INIT_ACK, createUserData(data.user_id, user_storage?.kv || {}));
+            const users = await User.find({ id: { $in: data.user_ids } });
+            const storages = await Storage.find({ userId: { $in: users.map(user => user.id) } });
 
-              logger.socket(`Websocket connection ${id} subscribed to user ${data.user_id}.`);
-            } else {
-              const users = await User.find({ id: { $in: data.user_ids } });
-              const storages = await Storage.find({ userId: { $in: users.map(user => user.id) } });
-            
-              const userData = users.map(user => createUserData(user.id, storages.find(storage => storage.userId === user.id)?.kv || {}));
-            
-              send(websocket, Opcodes.INIT_ACK, userData);
+            const userData = users.map(user => createUserData(user.id, storages.find(storage => storage.userId === user.id)?.kv || {}));
 
-              logger.socket(`Websocket connection ${id} subscribed to users ${data.user_ids.join(', ')}.`);
-            }
+            send(websocket, Opcodes.INIT_ACK, userData);
+
+            logger.socket(`Websocket connection ${id} subscribed to users ${data.user_ids.join(', ')}.`);
           }
 
           break;
