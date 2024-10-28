@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/discordplace/lantern/compare/server@v1.1.1...server@v1.1.2) (2024-10-28)
+
+
+### Bug Fixes
+
+* Escape HTML in noActivityTitle and noActivityMessage for security ([97b1082](https://github.com/discordplace/lantern/commit/97b1082ebc130627553e7759a5d5f667b1084a4d))
+
 ## [1.1.1](https://github.com/discordplace/lantern/compare/server@v1.1.0...server@v1.1.1) (2024-10-22)
 
 
