@@ -10,7 +10,7 @@
     "dev": "cross-env NODE_ENV=development tsx ./src/index.ts",
     "build": "rimraf dist && tsc --project tsconfig.json && tsc-alias -p tsconfig.json && npm run copyfiles",
     "start": "npm run build && cd dist && cross-env NODE_ENV=production node src/index.js",
-    "copyfiles": "copyfiles src/config.toml dist/ && copyfiles .env dist/",
+    "copyfiles": "copyfiles src/config.toml dist/ && copyfiles .env dist/ && copyfiles swagger.json dist/",
     "register:commands": "npm run build && cross-env NODE_ENV=development tsx ./src/scripts/registerCommands.ts",
     "unregister:commands": "npm run build && cross-env NODE_ENV=development tsx ./src/scripts/unregisterCommands.ts",
     "prepare": "husky"
