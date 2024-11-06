@@ -445,8 +445,6 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
     </svg>
   `;
 
-  console.log(svgCard);
-
   return svgCard;
 }
 
