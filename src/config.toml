@@ -1,0 +1,68 @@
+bypass_command_permissions_check = ['957840712404193290']
+
+base_guild_id = '1253092552404631582'
+max_bulk_get_users_size = 50
+
+[server]
+port = 3003
+
+[server.socket]
+heartbeat_interval = 30000
+maxpayload = 1024
+clienttracking = true
+keepalive = true
+# Opcodes that the server can receive from the client
+# INIT | HEARTBEAT | SUBSCRIBE | UNSUBSCRIBE
+client_allowed_opcodes = [2, 4, 12, 14]
+
+[server.socket.opcodes]
+HELLO = 1
+INIT = 2
+INIT_ACK = 3
+HEARTBEAT = 4
+HEARTBEAT_ACK = 5
+PRESENCE_UPDATE = 6
+USER_LEFT = 7
+USER_JOINED = 8
+DISCONNECT = 9
+STORAGE_UPDATE = 10
+ERROR = 11
+SUBSCRIBE = 12
+SUBSCRIBE_ACK = 13
+UNSUBSCRIBE = 14
+UNSUBSCRIBE_ACK = 15
+
+[logger.levels]
+error = 'red'
+warn = 'yellow'
+info = 'blue'
+debug = 'grey'
+database = 'magenta'
+bot = 'green'
+http = 'yellow'
+socket = 'cyan'
+
+[database.backup]
+output_dir = './database-backups'
+enabled = false
+discord_channel = ''
+cron_pattern = '0 0 * * *'
+exclude_collections = ['evaluateresults', 'messages']
+
+[user_svg_card.colors.dark]
+  background = '#17171c'
+  background_secondary = '#1e1e24'
+  card = '#1e1e24'
+
+[user_svg_card.colors.dark.text]
+  primary = '#ffffff'
+  secondary = '#999999'
+
+[user_svg_card.colors.light]
+  background = '#e6e6e6'
+  background_secondary = '#dcdcdc'
+  card = '#eeeeee'
+
+[user_svg_card.colors.light.text]
+  primary = '#242a31'
+  secondary = '#6c757d'

@@ -1,0 +1,34 @@
+name: "ESLint"
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: "Lint"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: ./.github/actions/setup-node-env
+        with:
+          node-version: 18
+          cache-path: /node_modules
+          cache-key: "${{hashFiles('pnpm-lock.yaml')}}"
+          
+      - name: Run lint script
+        run: |
+          npm run lint

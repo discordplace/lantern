@@ -1,0 +1,27 @@
+- name: 'Bug'
+  color: 'FF6347'
+  description: Issues related to bugs specifically in the project.
+- name: 'Feature'
+  color: '4682B4'
+  description: Requests or discussions related to new features in the project.
+- name: 'Security'
+  color: 'FF0000'
+  description: Issues related to security vulnerabilities in the project.
+- name: 'Performance'
+  color: '32CD32'
+  description: Discussions or problems regarding performance optimizations in the project.
+- name: 'Database'
+  color: 'FFA500'
+  description: Issues related to database related problems or discussions.
+- name: 'Documentation'
+  color: '8A2BE2'
+  description: Issues related to documentation or the lack of it.
+- name: 'Question'
+  color: 'FFD700'
+  description: Issues that are questions or require clarification.
+- name: 'Invalid'
+  color: '4682B4'
+  description: Issues that are invalid or do not belong to the project.
+- name: 'Duplicate'
+  color: 'FFD700'
+  description: Issues that are duplicates of other issues.

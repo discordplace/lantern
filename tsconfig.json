@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "ESNext",
+      "dom"
+    ],
+    "paths": {
+      "@/*": ["./*"],
+      "@/utils/*": ["./src/lib/utils/*"],
+      "@/scripts/*": ["./src/scripts/*"],
+      "@/models/*": ["./src/lib/models/*"],
+      "@/express/*": ["./src/lib/express/*"],
+      "@/bot/*": ["./src/lib/bot/*"],
+      "@/constants/*": ["./src/lib/constants/*"],
+    },
+    "rootDir": "./",
+    "outDir": "./dist",
+    "module": "Preserve",
+    "target": "ES2023",
+    "skipLibCheck": true
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true
+  }
+}

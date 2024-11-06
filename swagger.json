@@ -1,0 +1,792 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "lantern.rest",
+    "version": "1",
+    "description": "API Documentation",
+    "contact": {
+      "name": "discord.place",
+      "url": "https://discord.place",
+      "email": "support@discord.place"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://lantern.rest/api/v1"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Get user data by user IDs",
+        "description": "Fetches user data for an array of user IDs. Users must be monitored by the system.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "user_ids",
+            "in": "query",
+            "required": true,
+            "description": "An array of user IDs to fetch data for. Each ID must be a string of 17-19 characters, and there must be no duplicates.",
+            "schema": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 17,
+                "maxLength": 19,
+                "pattern": "^[0-9]{17,19}$"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data retrieved successfully.",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad request. The user IDs parameter is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Missing user_ids": {
+                    "summary": "Missing user_ids",
+                    "value": {
+                      "error": "user_ids is required."
+                    }
+                  },
+                  "Not an array": {
+                    "summary": "user_ids not an array",
+                    "value": {
+                      "error": "user_ids must be an array."
+                    }
+                  },
+                  "Invalid ID format": {
+                    "summary": "user_ids invalid format",
+                    "value": {
+                      "error": "user_ids must be an array of strings with 17-19 characters long."
+                    }
+                  },
+                  "Duplicate user_ids": {
+                    "summary": "Duplicate user_ids",
+                    "value": {
+                      "error": "user_ids must not contain duplicates."
+                    }
+                  },
+                  "Too many users": {
+                    "summary": "Too many user_ids",
+                    "value": {
+                      "error": "You can only request up to {max_bulk_get_users_size} users at once."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found. None of the requested users are monitored by the system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Users you requested are not monitored by Lantern."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get user data by user ID",
+        "description": "Fetches user data for a user ID. The user must be monitored by the system.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The user ID to fetch data for.",
+            "schema": {
+              "type": "number",
+              "minLength": 17,
+              "maxLength": 19,
+              "pattern": "^[0-9]{17,19}$"
+            }
+          },
+          {
+            "name": "svg",
+            "in": "query",
+            "description": "Whether to return the user's avatar as an SVG image.",
+            "schema": {
+              "type": "integer",
+              "enum": [0, 1],
+              "default": 0
+            }
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "description": "The theme to use for the SVG image.",
+            "schema": {
+              "type": "string",
+              "enum": ["light", "dark"],
+              "default": "dark"
+            }
+          },
+          {
+            "name": "borderRadius",
+            "in": "query",
+            "description": "The border radius to use for the SVG image.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "pattern": "^[0-9]+$",
+              "default": 2
+            }
+          },
+          {
+            "name": "hideGlobalName",
+            "in": "query",
+            "description": "Whether to hide the user's global name.",
+            "schema": {
+              "type": "integer",
+              "enum": [0, 1],
+              "default": 0
+            }
+          },
+          {
+            "name": "hideStatus",
+            "in": "query",
+            "description": "Whether to hide the user's status.",
+            "schema": {
+              "type": "integer",
+              "enum": [0, 1],
+              "default": 0
+            }
+          },
+          {
+            "name": "hideBadges",
+            "in": "query",
+            "description": "Whether to hide the user's badges.",
+            "schema": {
+              "type": "integer",
+              "enum": [0, 1],
+              "default": 0
+            }
+          },
+          {
+            "name": "hideActivity",
+            "in": "query",
+            "description": "Whether to hide the user's activity.",
+            "schema": {
+              "type": "integer",
+              "enum": [0, 1],
+              "default": 0
+            }
+          },
+          {
+            "name": "noActivityTitle",
+            "in": "query",
+            "description": "The title to display when the user has no activity.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "default": "No activity"
+            }
+          },
+          {
+            "name": "noActivityMessage",
+            "in": "query",
+            "description": "The message to display when the user has no activity.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "default": "User is not currently doing anything."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data retrieved successfully.",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Bad request. The user ID parameter is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "User not monitored": {
+                    "summary": "User not monitored",
+                    "value": {
+                      "error": "User {id} is not being monitored by Lantern."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/storage": {
+      "get": {
+        "summary": "Get user storage data by user ID",
+        "description": "Fetches user storage data for a user ID. The user must be monitored by the system.",
+        "tags": [
+          "Storage"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The user ID to fetch storage data for.",
+            "schema": {
+              "type": "number",
+              "minLength": 17,
+              "maxLength": 19,
+              "pattern": "^[0-9]{17,19}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User storage data retrieved successfully.",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Bad request. The user ID parameter is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "User not monitored": {
+                    "summary": "User not monitored",
+                    "value": {
+                      "error": "User {id} is not being monitored by Lantern."
+                    }
+                  },
+                  "No storage": {
+                    "summary": "No storage found",
+                    "value": {
+                      "error": "User {id} does not have any storage."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user storage data by user ID",
+        "description": "Deletes all user storage data for a user ID. The user must be monitored by the system.",
+        "tags": [
+          "Storage"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The user ID to delete storage data for.",
+            "schema": {
+              "type": "number",
+              "minLength": 17,
+              "maxLength": 19,
+              "pattern": "^[0-9]{17,19}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User storage data deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request. The user ID parameter is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "User not monitored": {
+                    "summary": "User not monitored",
+                    "value": {
+                      "error": "User {id} is not being monitored by Lantern."
+                    }
+                  },
+                  "No storage": {
+                    "summary": "No storage found",
+                    "value": {
+                      "error": "User {id} does not have any storage."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/storage/{key}": {
+      "get": {
+        "summary": "Get user storage data by user ID and key",
+        "description": "Fetches user storage data for a user ID and key. The user must be monitored by the system.",
+        "tags": [
+          "Storage"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The user ID to fetch storage data for.",
+            "schema": {
+              "type": "number",
+              "minLength": 17,
+              "maxLength": 19,
+              "pattern": "^[0-9]{17,19}$"
+            }
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "The key to fetch the value for.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255,
+              "pattern": "^[a-zA-Z0-9]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User storage data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request. The user ID or key parameter is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "User not monitored": {
+                    "summary": "User not monitored",
+                    "value": {
+                      "error": "User {id} is not being monitored by Lantern."
+                    }
+                  },
+                  "No storage": {
+                    "summary": "No storage found",
+                    "value": {
+                      "error": "User {id} does not have any storage."
+                    }
+                  },
+                  "Key not found": {
+                    "summary": "Key not found",
+                    "value": {
+                      "error": "Key {key} does not exist in the storage."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Create user storage data by user ID and key",
+        "description": "Creates a new user storage data for a user ID and key. The user must be monitored by the system.",
+        "tags": [
+          "Storage"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The user ID to create storage data for.",
+            "schema": {
+              "type": "number",
+              "minLength": 17,
+              "maxLength": 19,
+              "pattern": "^[0-9]{17,19}$"
+            }
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "The key to create the value for.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255,
+              "pattern": "^[a-zA-Z0-9]+$"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "required": true,
+            "description": "The value to assign to the key.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 30000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User storage data created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request. The user ID, key, or value parameter is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "User not monitored": {
+                    "summary": "User not monitored",
+                    "value": {
+                      "error": "User {id} is not being monitored by Lantern."
+                    }
+                  },
+                  "Key too long": {
+                    "summary": "Key too long",
+                    "value": {
+                      "error": "Key must be between 1 and 255 characters long."
+                    }
+                  },
+                  "Value too long": {
+                    "summary": "Value too long",
+                    "value": {
+                      "error": "Value must be between 1 and 30000 characters long."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update user storage data by user ID and key",
+        "description": "Updates the value of a user storage data for a user ID and key. The user must be monitored by the system.",
+        "tags": [
+          "Storage"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The user ID to update storage data for.",
+            "schema": {
+              "type": "number",
+              "minLength": 17,
+              "maxLength": 19,
+              "pattern": "^[0-9]{17,19}$"
+            }
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "The key to update the value for.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255,
+              "pattern": "^[a-zA-Z0-9]+$"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "required": true,
+            "description": "The new value to assign to the key.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 30000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User storage data updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request. The user ID, key, or value parameter is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "User not monitored": {
+                    "summary": "User not monitored",
+                    "value": {
+                      "error": "User {id} is not being monitored by Lantern."
+                    }
+                  },
+                  "Key too long": {
+                    "summary": "Key too long",
+                    "value": {
+                      "error": "Key must be between 1 and 255 characters long."
+                    }
+                  },
+                  "Value too long": {
+                    "summary": "Value too long",
+                    "value": {
+                      "error": "Value must be between 1 and 30000 characters long."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user storage data by user ID and key",
+        "description": "Deletes a user storage data for a user ID and key. The user must be monitored by the system.",
+        "tags": [
+          "Storage"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The user ID to delete storage data for.",
+            "schema": {
+              "type": "number",
+              "minLength": 17,
+              "maxLength": 19,
+              "pattern": "^[0-9]{17,19}$"
+            }
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "The key to delete the value for.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255,
+              "pattern": "^[a-zA-Z0-9]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User storage data deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request. The user ID or key parameter is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "User not monitored": {
+                    "summary": "User not monitored",
+                    "value": {
+                      "error": "User {id} is not being monitored by Lantern."
+                    }
+                  },
+                  "No storage": {
+                    "summary": "No storage found",
+                    "value": {
+                      "error": "User {id} does not have any storage."
+                    }
+                  },
+                  "Key not found": {
+                    "summary": "Key not found",
+                    "value": {
+                      "error": "Key {key} does not exist in the storage."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "The token you get from the Lantern bot to access the KV storage API."
+      }
+    }
+  }
+}
