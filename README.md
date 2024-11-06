@@ -835,7 +835,7 @@ base_guild_id = 'your_base_guild_id'
 port = 8000
 ```
 
-6. Start the server. This builds the client and starts the server in the production environment:
+6. Start the server. This builds the app and starts the server:
 
 ```bash
 pnpm start
