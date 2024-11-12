@@ -42,7 +42,7 @@
     "@types/node": "^22.7.4",
     "@types/ws": "^8.5.12",
     "@typescript-eslint/eslint-plugin": "^8.11.0",
-    "@typescript-eslint/parser": "^8.11.0",
+    "@typescript-eslint/parser": "^8.14.0",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "eslint": "^9.12.0",
