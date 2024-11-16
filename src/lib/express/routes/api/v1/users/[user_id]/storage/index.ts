@@ -7,7 +7,7 @@ import { decrypt } from '@/utils/encryption';
 import type { Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'node:http';
 
-interface RequestQuery {
+interface RequestParams {
   user_id: string;
 }
 
@@ -21,8 +21,8 @@ export const get = [
     .isNumeric().withMessage('user_id must be a number.')
     .isLength({ min: 17, max: 19 }).withMessage('user_id must be 17-19 characters long.'),
   validateRequest,
-  async (request: Request<unknown, unknown, unknown, RequestQuery>, response: Response) => {
-    const { user_id } = request.query;
+  async (request: Request<RequestParams>, response: Response) => {
+    const { user_id } = request.params;
 
     const guild = client.guilds.cache.get(config.base_guild_id);
     const member = guild.members.cache.get(user_id);
@@ -46,8 +46,8 @@ export const del = [
     .isNumeric().withMessage('user_id must be a number.')
     .isLength({ min: 17, max: 19 }).withMessage('user_id must be 17-19 characters long.'),
   validateRequest,
-  async (request: Request<unknown, unknown, unknown, RequestQuery>, response: Response) => {
-    const { user_id } = request.query;
+  async (request: Request<RequestParams>, response: Response) => {
+    const { user_id } = request.params;
 
     const guild = client.guilds.cache.get(config.base_guild_id);
     const member = guild.members.cache.get(user_id);
