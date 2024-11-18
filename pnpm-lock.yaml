@@ -36,8 +36,8 @@ importers:
         specifier: ^1.7.4
         version: 1.7.5
       cron:
-        specifier: ^3.1.7
-        version: 3.1.8
+        specifier: ^3.2.1
+        version: 3.2.1
       cronstrue:
         specifier: ^2.50.0
         version: 2.51.0
@@ -1023,8 +1023,8 @@ packages:
     resolution: {integrity: sha512-piICUB6ei4IlTv1+653yq5+KoqfBYmj9bw6LqXoOneTMDXk5nM1qt12mFW1caG3LlJXEKW1Bp0WggEmIfQB34g==}
     engines: {node: '>= 14'}
 
-  cron@3.1.8:
-    resolution: {integrity: sha512-45bqmAOSd/XB5JJWfV1W59fFEzqgNNWmOYQZVcw0sfyQqU35HFdVfTsr2xzlqWoTAfspRrvK0lSSLj8Pj9YmpQ==}
+  cron@3.2.1:
+    resolution: {integrity: sha512-w2n5l49GMmmkBFEsH9FIDhjZ1n1QgTMOCMGuQtOXs5veNiosZmso6bQGuqOJSYAXXrG84WQFVneNk+Yt0Ua9iw==}
 
   cronstrue@2.51.0:
     resolution: {integrity: sha512-7EG9VaZZ5SRbZ7m25dmP6xaS0qe9ay6wywMskFOU/lMDKa+3gZr2oeT5OUfXwRP/Bcj8wxdYJ65AHU70CI3tsw==}
@@ -3364,7 +3364,7 @@ snapshots:
       crc-32: 1.2.2
       readable-stream: 4.5.2
 
-  cron@3.1.8:
+  cron@3.2.1:
     dependencies:
       '@types/luxon': 3.4.2
       luxon: 3.5.0
