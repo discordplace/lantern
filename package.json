@@ -65,7 +65,7 @@
     "chalk": "^4.1.0",
     "chrono-node": "^2.7.6",
     "compression": "^1.7.4",
-    "cron": "^3.1.7",
+    "cron": "^3.2.1",
     "cronstrue": "^2.50.0",
     "date-fns": "^4.1.0",
     "dedent": "^1.5.3",
