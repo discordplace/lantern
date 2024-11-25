@@ -111,9 +111,38 @@ export type UserData = {
     }
   },
   status: string,
-  active_platforms: Record<string, string | Record<string, string>>,
+  active_platforms: ClientPresenceStatusData,
   activities: (CustomStatusActivity | OtherActivity)[],
   storage: Map<string, string> | {}
+}
+
+export type ClientPresenceStatus = 'online' | 'idle' | 'dnd' | 'offline';
+
+export type ClientPresenceStatusData = {
+  web: ClientPresenceStatus;
+  mobile: ClientPresenceStatus;
+  desktop: ClientPresenceStatus;
+  spotify: SpotifyActivity | null;
+}
+
+type SpotifyActivity = {
+  track_id: string,
+  song: string,
+  artist: string | string[],
+  album: string,
+  album_cover: string,
+  start_time: {
+    unix: number,
+    raw: Date
+  },
+  end_time: {
+    unix: number,
+    raw: Date
+  },
+  time: {
+    current_human_readable: string,
+    end_human_readable: string
+  }
 }
 
 export type CustomStatusActivity = {

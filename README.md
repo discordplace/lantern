@@ -99,7 +99,7 @@ Retrieve the data of users with the specified IDs.
             "raw": "2021-05-03T00:00:00.000Z"
           },
           "time": {
-            "start_human_readable": "00:00",
+            "current_human_readable": "00:00",
             "end_human_readable": "00:00"
           }
         }
@@ -126,9 +126,11 @@ Retrieve the data of users with the specified IDs.
               "text": "example"
             }
           },
-          "start_time": {
-            "unix": 1620000000,
-            "raw": "2021-05-03T00:00:00.000Z"
+          "timestamps": {
+            "start_time": {
+              "unix": 1620000000,
+              "raw": "2021-05-03T00:00:00.000Z"
+            }
           }
         }
       ],
@@ -208,7 +210,7 @@ Retrieve the data of a user with the specified ID.
         "raw": "2021-05-03T00:00:00.000Z"
       },
       "time": {
-        "start_human_readable": "00:00",
+        "current_human_readable": "00:00",
         "end_human_readable": "00:00"
       }
     }
@@ -235,9 +237,11 @@ Retrieve the data of a user with the specified ID.
           "text": "example"
         }
       },
-      "start_time": {
-        "unix": 1620000000,
-        "raw": "2021-05-03T00:00:00.000Z"
+      "timestamps": {
+        "start_time": {
+          "unix": 1620000000,
+          "raw": "2021-05-03T00:00:00.000Z"
+        }
       }
     }
   ],

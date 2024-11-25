@@ -1,6 +1,6 @@
 import * as Discord from 'discord.js';
 import * as dateFns from 'date-fns';
-import type { UserData } from '@/src/types';
+import type { UserData, ClientPresenceStatus, ClientPresenceStatusData } from '@/src/types';
 
 /**
  * Creates a user data object for a given user ID and key-value storage.
@@ -17,16 +17,12 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
   const member = guild.members.cache.get(user_id);
   if (!member) throw new Error('Member not found.');
 
-  const activePlatforms = ['desktop', 'mobile', 'web']
-    .map(platform => {
-      if (!member.presence || !member.presence.clientStatus) return { [platform]: 'offline' };
-
-      const currentPlatformStatus = member.presence.clientStatus as Record<string, string>;
-
-      return { [platform]: currentPlatformStatus[platform] || 'offline' };
-
-    })
-    .reduce((acc, curr) => ({ ...acc, ...curr }), {});
+  const activePlatforms = {
+    desktop: member.presence.clientStatus?.desktop as ClientPresenceStatus || 'offline',
+    mobile: member.presence.clientStatus?.mobile as ClientPresenceStatus || 'offline',
+    web: member.presence.clientStatus?.web as ClientPresenceStatus || 'offline',
+    spotify: null
+  } as ClientPresenceStatusData;
 
   const spotifyActivity = member.presence?.activities.find(activity => activity.name === 'Spotify');
 
@@ -40,32 +36,30 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
     const currentHumanReadable = dateFns.format(new Date(elapsedTime * 1000), 'mm:ss');
 
     // Calculate human-readable end time
-    const totalDuration = dateFns.differenceInSeconds(startTime, endTime);
+    const totalDuration = dateFns.differenceInSeconds(endTime, startTime);
     const endHumanReadable = dateFns.format(new Date(totalDuration * 1000), 'mm:ss');
 
     const artistCount = spotifyActivity.state?.split('; ').length || 0;
 
-    Object.assign(activePlatforms, {
-      spotify: {
-        track_id: spotifyActivity.syncId,
-        song: spotifyActivity.details,
-        artist: artistCount > 1 ? spotifyActivity.state?.split('; ') : spotifyActivity.state,
-        album: spotifyActivity.assets?.largeText,
-        album_cover: spotifyActivity.assets?.largeImageURL(),
-        start_time: {
-          unix: spotifyActivity.timestamps?.start?.getTime(),
-          raw: spotifyActivity.timestamps?.start
-        },
-        end_time: {
-          unix: spotifyActivity.timestamps?.end?.getTime(),
-          raw: spotifyActivity.timestamps?.end
-        },
-        time: {
-          start_human_readable: currentHumanReadable,
-          end_human_readable: endHumanReadable
-        }
+    activePlatforms.spotify = {
+      track_id: spotifyActivity.syncId,
+      song: spotifyActivity.details,
+      artist: artistCount > 1 ? spotifyActivity.state?.split('; ') : spotifyActivity.state,
+      album: spotifyActivity.assets?.largeText,
+      album_cover: spotifyActivity.assets?.largeImageURL(),
+      start_time: {
+        unix: spotifyActivity.timestamps?.start?.getTime(),
+        raw: spotifyActivity.timestamps?.start
+      },
+      end_time: {
+        unix: spotifyActivity.timestamps?.end?.getTime(),
+        raw: spotifyActivity.timestamps?.end
+      },
+      time: {
+        current_human_readable: currentHumanReadable,
+        end_human_readable: endHumanReadable
       }
-    });
+    };
   }
 
   const parsedActivites = [];
@@ -117,9 +111,11 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
 
         if (activity.timestamps) {
           Object.assign(activityData, {
-            start_time: {
-              unix: activity.timestamps?.start?.getTime(),
-              raw: activity.timestamps.start
+            timestamps: {
+              start_time: {
+                unix: activity.timestamps?.start?.getTime(),
+                raw: activity.timestamps.start
+              }
             }
           });
         }
