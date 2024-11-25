@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/discordplace/lantern/compare/v1.0.0...v1.0.1) (2024-11-25)
+
+
+### Bug Fixes
+
+* update key 'start_human_readable' to 'current_human_readable' for consistency ([371d790](https://github.com/discordplace/lantern/commit/371d790e4732fc395220a307d1ddb54552d6dc56))
+
 ## 1.0.0 (2024-11-16)
 
 
