@@ -18,9 +18,9 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
   if (!member) throw new Error('Member not found.');
 
   const activePlatforms = {
-    desktop: member.presence.clientStatus?.desktop as ClientPresenceStatus || 'offline',
-    mobile: member.presence.clientStatus?.mobile as ClientPresenceStatus || 'offline',
-    web: member.presence.clientStatus?.web as ClientPresenceStatus || 'offline',
+    desktop: member.presence?.clientStatus?.desktop as ClientPresenceStatus || 'offline',
+    mobile: member.presence?.clientStatus?.mobile as ClientPresenceStatus || 'offline',
+    web: member.presence?.clientStatus?.web as ClientPresenceStatus || 'offline',
     spotify: null
   } as ClientPresenceStatusData;
 
