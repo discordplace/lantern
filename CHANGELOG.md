@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/discordplace/lantern/compare/v1.0.0...v1.0.1) (2024-12-16)
+
+
+### Bug Fixes
+
+* add optional chaining to member presence status checks ([40962cf](https://github.com/discordplace/lantern/commit/40962cf11ebbfe15a38ce4b9d188a654638312d0))
+* update key 'start_human_readable' to 'current_human_readable' for consistency ([371d790](https://github.com/discordplace/lantern/commit/371d790e4732fc395220a307d1ddb54552d6dc56))
+
 ## 1.0.0 (2024-11-16)
 
 
