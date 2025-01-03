@@ -9,7 +9,7 @@ export default {
   execute: async interaction => {
     addPrototypes(interaction);
 
-    if (interaction.isChatInputCommand()) {
+    if (interaction.isCommand()) {
       const command = client.commands.get(interaction.commandName);
       if (!command) return interaction.error('Unknown command.');
 
@@ -22,7 +22,7 @@ export default {
       const canUseThisCommand = permissionCheck(interaction, commandData);
       if (canUseThisCommand !== true) return interaction.error('Missing permissions.');
 
-      await commandData.execute.command(interaction, { subcommand: commandNameData.subcommand, group: commandNameData.group });
+      await commandData.execute.command(interaction as Discord.ChatInputCommandInteraction, { subcommand: commandNameData.subcommand, group: commandNameData.group });
 
       if (interaction.guild) logger.log('bot', `User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandNameData.name}" in guild "${interaction.guild.name}" (${interaction.guild.id}) which takes ${Date.now() - interaction.createdTimestamp} ms to execute.`);
       else logger.log('bot', `User "${interaction.user.username}" (${interaction.user.id}) executed command "${commandNameData.name}" in DMs which takes ${Date.now() - interaction.createdTimestamp} ms to execute.`);
