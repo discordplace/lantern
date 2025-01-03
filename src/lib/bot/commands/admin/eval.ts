@@ -3,6 +3,7 @@ import type { CommandType } from '@/src/types';
 import EvaluateResult from '@/models/EvaulateResult';
 import generateUniqueId from '@/src/lib/utils/generateUniqueId';
 import evaluateCode from '@/bot/commands/utils/evaluateCode';
+import safeCall from '@/src/lib/utils/safeCall';
 
 export default {
   metadata: {
@@ -54,11 +55,11 @@ async function collectCode(interaction: Discord.CommandInteraction) {
 
   if (!interaction.channel?.isSendable()) return;
 
-  const collected = await interaction.channel.awaitMessages({
+  const collected = await safeCall(() => interaction.channel?.awaitMessages({
     filter,
     time: 60000,
     max: 1
-  }).catch(() => null);
+  }));
 
   return collected?.first()?.content;
 }
