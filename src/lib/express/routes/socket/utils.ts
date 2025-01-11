@@ -41,7 +41,7 @@ function send(socket: WebSocket, op: ServerSocketOpcodes, d?: any): void {
 function disconnect(socket: WebSocket, id: string | null, error: string): void {
   if (id) {
     ActiveSockets.delete(id);
-    logger.log('database', `Websocket connection closed: ${id}`);
+    logger.log('socket', `Websocket connection closed: ${id}`);
   }
 
   send(socket, Opcodes.DISCONNECT, { error });
