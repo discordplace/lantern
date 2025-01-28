@@ -117,8 +117,8 @@ export type BaseUserType = {
 };
 
 export type UserData =
-  | (BaseUserType & { status: 'offline'; last_seen_at: Date })
-  | (BaseUserType & { status: Exclude<string, 'offline'>; last_seen_at: null });
+  | (BaseUserType & { status: 'offline'; last_seen_at: { unix: number; raw: Date } })
+  | (BaseUserType & { status: Exclude<string, 'offline'>; last_seen_at: { unix: number; raw: Date } });
 
 export type ClientPresenceStatus = 'online' | 'idle' | 'dnd' | 'offline';
 

@@ -152,16 +152,25 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
   };
 
   if (member.presence?.status === 'offline' && client.lastSeens.has(user_id)) {
+    const lastSeen = client.lastSeens.get(user_id);
+    const lastSeenDate = new Date(lastSeen);
+
     return {
       ...baseObject,
       status: 'offline',
-      last_seen_at: client.lastSeens.get(user_id)
+      last_seen_at: {
+        unix: lastSeenDate.getTime(),
+        raw: lastSeenDate
+      }
     };
   } else {
     return {
       ...baseObject,
       status: member.presence?.status as Exclude<string, 'offline'>,
-      last_seen_at: null
+      last_seen_at: {
+        unix: null,
+        raw: null
+      }
     };
   }
 }
