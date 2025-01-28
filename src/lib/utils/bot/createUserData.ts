@@ -126,7 +126,7 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
     }
   }
 
-  return {
+  const baseObject = {
     metadata: {
       id: user_id,
       username: member.user.username,
@@ -146,11 +146,33 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
         raw: member.joinedAt
       }
     },
-    status: member.presence?.status || 'offline',
     active_platforms: activePlatforms,
     activities: parsedActivites,
     storage: kv
   };
+
+  if (member.presence?.status === 'offline' && client.lastSeens.has(user_id)) {
+    const lastSeen = client.lastSeens.get(user_id);
+    const lastSeenDate = new Date(lastSeen);
+
+    return {
+      ...baseObject,
+      status: 'offline',
+      last_seen_at: {
+        unix: lastSeenDate.getTime(),
+        raw: lastSeenDate
+      }
+    };
+  } else {
+    return {
+      ...baseObject,
+      status: member.presence?.status as Exclude<string, 'offline'>,
+      last_seen_at: {
+        unix: null,
+        raw: null
+      }
+    };
+  }
 }
 
 export default createUserData;

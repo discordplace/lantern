@@ -7,6 +7,7 @@ import fetchCrons from '@/bot/handlers/crons/fetchCrons';
 import listenCrons from '@/bot/handlers/crons/listenCrons';
 import createServer from '@/express/createServer';
 import syncUsers from '@/src/lib/utils/bot/syncUsers';
+import User from '@/models/User';
 
 async function createClient() {
   const client = new Discord.Client({
@@ -56,6 +57,15 @@ async function createClient() {
         listenCrons(crons);
 
         logger.log('bot', `Fetched and listened to ${crons.size} crons.`);
+
+        // Cache last seen dates
+        client.lastSeens = new Discord.Collection();
+
+        const usersWithLastSeen = await User.find({ lastSeenAt: { $ne: null } })
+          .select('id lastSeenAt')
+          .lean();
+
+        usersWithLastSeen.forEach(user => client.lastSeens.set(user.id, user.lastSeenAt));
       })
       .catch(error => logger.error(error));
   });

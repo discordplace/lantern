@@ -6,6 +6,11 @@ const User = new Schema({
   id: {
     type: String,
     required: true
+  },
+  lastSeenAt: {
+    type: Date,
+    required: false,
+    default: null
   }
 }, {
   versionKey: false

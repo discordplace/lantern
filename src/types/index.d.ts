@@ -78,6 +78,7 @@ declare module 'discord.js' {
     commands: Discord.Collection<string, CommandType>;
     crons: Discord.Collection<string, CronType>;
     events: Discord.Collection<string, EventType>;
+    lastSeens: Discord.Collection<string, Date>;
   }
 
   interface CommandInteraction {
@@ -91,30 +92,33 @@ declare module 'discord.js' {
   }
 }
 
-export type UserData = {
+export type BaseUserType = {
   metadata: {
-    id: string,
-    username: string,
-    discriminator: string,
-    global_name: string | null,
-    avatar: string | null,
-    avatar_url: string | null,
-    display_avatar_url: string,
-    bot: boolean,
+    id: string;
+    username: string;
+    discriminator: string;
+    global_name: string | null;
+    avatar: string | null;
+    avatar_url: string | null;
+    display_avatar_url: string;
+    bot: boolean;
     flags: {
-      human_readable: string[],
-      bitfield: number | null | undefined
-    },
+      human_readable: string[];
+      bitfield: number | null | undefined;
+    };
     monitoring_since: {
-      unix: number | null,
-      raw: Date | null
-    }
-  },
-  status: string,
-  active_platforms: ClientPresenceStatusData,
-  activities: (CustomStatusActivity | OtherActivity)[],
-  storage: Map<string, string> | {}
-}
+      unix: number | null;
+      raw: Date | null;
+    };
+  };
+  active_platforms: ClientPresenceStatusData;
+  activities: (CustomStatusActivity | OtherActivity)[];
+  storage: Map<string, string> | {};
+};
+
+export type UserData =
+  | (BaseUserType & { status: 'offline'; last_seen_at: { unix: number; raw: Date } })
+  | (BaseUserType & { status: Exclude<string, 'offline'>; last_seen_at: { unix: number; raw: Date } });
 
 export type ClientPresenceStatus = 'online' | 'idle' | 'dnd' | 'offline';
 
