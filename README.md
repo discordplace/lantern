@@ -78,7 +78,6 @@ Retrieve the data of users with the specified IDs.
           "raw": "2021-05-03T00:00:00.000Z"
         }
       },
-      "status": "online",
       // Active platforms object with current Spotify track
       "active_platforms": {
         "desktop": "online",
@@ -137,7 +136,9 @@ Retrieve the data of users with the specified IDs.
       // Key-value pairs for the user (if any)
       "storage": {
         "key": "value"
-      }
+      },
+      "status": "online",
+      "last_seen_at": null // This will be { unix: number, raw: string } if the user is offline and the last seen time is available
     },
     // Additional user objects
   ]
@@ -189,7 +190,6 @@ Retrieve the data of a user with the specified ID.
       "raw": "2021-05-03T00:00:00.000Z"
     }
   },
-  "status": "online",
   // Active platforms object with current Spotify track
   "active_platforms": {
     "desktop": "online",
@@ -248,7 +248,9 @@ Retrieve the data of a user with the specified ID.
   // Key-value pairs for the user (if any)
   "storage": {
     "key": "value"
-  }
+  },
+  "status": "online",
+  "last_seen_at": null // This will be { unix: number, raw: string } if the user is offline and the last seen time is available
 }
 ```
 </details>
