@@ -160,6 +160,7 @@ Retrieve the data of a user with the specified ID.
 | `hideStatus` | number | Whether to hide the user's status. Must be either `0` or `1`. |
 | `hideBadges` | number | Whether to hide the user's badges. Must be either `0` or `1`. |
 | `hideActivity` | number | Whether to hide the user's activity. Must be either `0` or `1`. |
+| `hideLastSeen` | number | Whether to hide the user's last seen time. Must be either `0` or `1`. |
 | `noActivityTitle` | string | The title to display when the user has no activity. Default might be `No Activity`. Can't be greater than 64 characters. |
 | `noActivityMessage` | string | The message to display when the user has no activity. Default might be `This user is not currently doing anything.`. Can't be greater than 256 characters. |
 
