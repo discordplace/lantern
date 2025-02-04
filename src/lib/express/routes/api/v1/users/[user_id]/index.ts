@@ -48,6 +48,11 @@ export const get = [
     .isNumeric().withMessage('hideActivity must be a number.')
     .isIn([0, 1]).withMessage('hideActivity must be either 0 or 1.')
     .toInt(),
+  query('hideLastSeen')
+    .optional()
+    .isNumeric().withMessage('hideLastSeen must be a number.')
+    .isIn([0, 1]).withMessage('hideLastSeen must be either 0 or 1.')
+    .toInt(),
   query('noActivityTitle')
     .optional()
     .isString().withMessage('noActivityTitle must be a string.')

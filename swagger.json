@@ -207,6 +207,16 @@
             }
           },
           {
+            "name": "hideLastSeen",
+            "in": "query",
+            "description": "Whether to hide the user's last seen date.",
+            "schema": {
+              "type": "integer",
+              "enum": [0, 1],
+              "default": 0
+            }
+          },
+          {
             "name": "noActivityTitle",
             "in": "query",
             "description": "The title to display when the user has no activity.",

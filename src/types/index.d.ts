@@ -198,6 +198,7 @@ export type APIUsersGETRequestQuery = {
   hideStatus?: string;
   hideBadges?: string;
   hideActivity?: string;
+  hideLastSeen?: string;
   noActivityTitle?: string;
   noActivityMessage?: string;
 }

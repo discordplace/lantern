@@ -27,6 +27,7 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
     hideStatus: false,
     hideBadges: false,
     hideActivity: false,
+    hideLastSeen: false,
     noActivityTitle: 'No Activity',
     noActivityMessage: 'User is not currently doing anything.'
   };
@@ -198,11 +199,13 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
               flex-direction: column;
               gap: 0.25rem;
               margin-left: 27%;
+              width: 100%;
             ">
               <div style="
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
+                width: 100%;
               ">
                 <div style="
                   ${!options.hideGlobalName ? `
@@ -214,8 +217,24 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
                     font-weight: 600;
                     color: ${variables.colors.text.primary};
                   `}
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  width: 100%;
                 ">
-                  @${he.escape(userData.metadata.username)}
+                  <span>
+                    @${he.escape(userData.metadata.username)}
+                  </span>
+
+                  ${userData.status === 'offline' && userData.last_seen_at && !options.hideLastSeen ? `
+                    <span style="
+                      font-size: 0.75rem;
+                      font-weight: 500;
+                      color: ${variables.colors.text.secondary};
+                    ">
+                      Last seen ${dateFns.formatDistance(new Date(userData.last_seen_at.unix), new Date(), { addSuffix: true })}
+                    </span>
+                  ` : ''}
                 </div>
 
                 ${!options.hideBadges ? `
