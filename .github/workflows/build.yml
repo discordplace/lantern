@@ -23,14 +23,17 @@ jobs:
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Server
+        env:
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
-          set +x  # Disable command echoing
-          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+          ssh -T -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" << 'EOF' > /dev/null 2>&1
             cd lantern
-            git pull origin main
-            npm install
-            npm run build
-            pm2 restart lantern
+            git pull origin main > /dev/null 2>&1
+            npm install > /dev/null 2>&1
+            npm run build > /dev/null 2>&1
+            pm2 restart lantern > /dev/null 2>&1
           EOF
 
       - uses: chimpdev/bark-github-action@v1.0.1
