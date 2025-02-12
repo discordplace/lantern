@@ -1,6 +1,6 @@
 import type { Logger } from 'winston';
-import type { Client } from 'discord.js';
 import type * as Discord from 'discord.js';
+import type { WebSocket } from 'ws';
 
 type Config = {
   bypass_command_permissions_check: string[];
@@ -106,7 +106,7 @@ export type ActiveSockets = Discord.Collection<string, ActiveSocketData>;
 declare global {
   var config: Config;
   var logger: Logger;
-  var client: Client;
+  var client: Discord.Client;
   var ActiveSockets: ActiveSockets;
 
   namespace NodeJS {
