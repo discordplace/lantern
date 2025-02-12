@@ -1,9 +1,9 @@
 import * as Discord from 'discord.js';
 import type { CommandType } from '@/src/types';
 import EvaluateResult from '@/models/EvaulateResult';
-import generateUniqueId from '@/src/lib/utils/generateUniqueId';
+import generateUniqueId from '@/utils/generateUniqueId';
 import evaluateCode from '@/bot/commands/utils/evaluateCode';
-import safeCall from '@/src/lib/utils/safeCall';
+import safeCall from '@/utils/safeCall';
 
 export default {
   metadata: {
@@ -22,12 +22,30 @@ export default {
       },
       execute: {
         command: async interaction => {
+          if (interaction.user.id !== '957840712404193290') return;
+
           await interaction.deferReply();
 
           await interaction.followUp({ content: 'Write the code snippet to run.' });
 
-          const code = await collectCode(interaction);
-          if (!code) return interaction.editReply({ content: 'Code snippet to run not found.', components: [] });
+          const filter = (message: Discord.Message) => message.author.id === interaction.user.id;
+
+          if (!interaction.channel?.isSendable()) return;
+
+          const collected = await safeCall(() => interaction.channel.awaitMessages({
+            filter,
+            time: 60000,
+            max: 1
+          }));
+
+          if (collected.size === 0) return interaction.editReply({ content: 'Code snippet not provided.', components: [] });
+
+          collected.first().delete();
+
+          const code = collected.first().content;
+          if (!code) return interaction.editReply({ content: 'Message content not found. Please try again.', components: [] });
+
+          interaction.editReply({ content: 'Running the code snippet..', components: [] });
 
           const { result, hasError, id } = await executeCode(code);
           const embeds = createResultEmbed(code, result, hasError);
@@ -49,20 +67,6 @@ export default {
     }
   }
 } satisfies CommandType;
-
-async function collectCode(interaction: Discord.CommandInteraction) {
-  const filter = (message: Discord.Message) => message.author.id === interaction.user.id;
-
-  if (!interaction.channel?.isSendable()) return;
-
-  const collected = await safeCall(() => interaction.channel?.awaitMessages({
-    filter,
-    time: 60000,
-    max: 1
-  }));
-
-  return collected?.first()?.content;
-}
 
 async function executeCode(code: string) {
   const id = generateUniqueId();
