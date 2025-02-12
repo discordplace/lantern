@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.3.0](https://github.com/discordplace/lantern/compare/v1.2.0...v1.3.0) (2025-02-12)
+
+
+### Features
+
+* **ci:** update build workflow to include SSH setup and deployment steps ([454a241](https://github.com/discordplace/lantern/commit/454a2414ead587c71bc76f3c5e6988097c330471))
+
+
+### Bug Fixes
+
+* **ci:** correct directory path in deployment script ([9ab9103](https://github.com/discordplace/lantern/commit/9ab9103ab890e675110a6ee420d1f0ac184aa47e))
+* **ci:** disable command echoing in deployment script ([e18c762](https://github.com/discordplace/lantern/commit/e18c7629f5da72507a21e64d78fe5fa138fb99b4))
+* **ci:** enhance deployment script by suppressing command output ([d524b7a](https://github.com/discordplace/lantern/commit/d524b7a2d65bcafd602010cd22025099ac7353d1))
+* **ci:** update notification title and body in build workflow ([129b107](https://github.com/discordplace/lantern/commit/129b10719c634327fb98574984ce6d4aaa62be89))
+* **ci:** update notification title and body in build workflow ([5872409](https://github.com/discordplace/lantern/commit/5872409a3aef2e615c2d1f7f0e9601777d13fda9))
+* **ci:** update SSH setup to use SSH_PRIVATE_KEY instead of GITHUB_TOKEN ([71df2fc](https://github.com/discordplace/lantern/commit/71df2fc913cda56a010d246d686aab42fb039ae9))
+
 ## [1.2.0](https://github.com/discordplace/lantern/compare/v1.1.0...v1.2.0) (2025-02-12)
 
 
