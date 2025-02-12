@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/discordplace/lantern/compare/v1.1.0...v1.2.0) (2025-02-12)
+
+
+### Features
+
+* **eval:** enhance code evaluation command with improved error handling ([1179f96](https://github.com/discordplace/lantern/commit/1179f96f8153029b6cff746e82aba758a9088e4c))
+
 ## [1.1.0](https://github.com/discordplace/lantern/compare/v1.0.1...v1.1.0) (2025-02-04)
 
 
