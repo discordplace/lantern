@@ -24,6 +24,7 @@ jobs:
 
       - name: Deploy to Server
         run: |
+          set +x  # Disable command echoing
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
             cd lantern
             git pull origin main
