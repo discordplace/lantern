@@ -12,12 +12,31 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Connect to SSH and run commands
-        uses: appleboy/ssh-action@master
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GITHUB_TOKEN }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Server
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+            cd /lantern
+            git pull origin main
+            npm install
+            npm run build
+            pm2 restart lantern
+          EOF
+
+      - uses: chimpdev/bark-github-action@v1.0.1
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            ./build-lantern.sh
+            device_key: ${{ secrets.BARK_KEY }}
+            server_url: ${{ secrets.BARK_SERVER_URL }}
+            title: 'Action ${{ github.event_name }}'
+            body: 'Workflow ${{ github.workflow }} has completed with status ${{ job.status }}.'
+            url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+        if: always() # Run this step regardless of the outcome of previous steps
