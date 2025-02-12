@@ -1,6 +1,5 @@
 import type { Logger } from 'winston';
 import type { Client } from 'discord.js';
-import type { WebSocket } from 'ws';
 import type * as Discord from 'discord.js';
 
 type Config = {
@@ -109,7 +108,6 @@ declare global {
   var logger: Logger;
   var client: Client;
   var ActiveSockets: ActiveSockets;
-  var getWss: () => WebSocket;
 
   namespace NodeJS {
     interface ProcessEnv {

@@ -19,9 +19,7 @@ async function createServer() {
       keepAlive: config.server.socket.keepalive
     }
   };
-  const { app, getWss } = ws(express(), undefined, options);
-
-  global.getWss = getWss;
+  const { app } = ws(express(), undefined, options);
 
   // Configure the server
   app.set('trust proxy', true);
