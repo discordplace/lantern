@@ -25,7 +25,7 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
-            cd /lantern
+            cd lantern
             git pull origin main
             npm install
             npm run build
