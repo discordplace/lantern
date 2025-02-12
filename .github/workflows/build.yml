@@ -40,7 +40,8 @@ jobs:
         with:
             device_key: ${{ secrets.BARK_KEY }}
             server_url: ${{ secrets.BARK_SERVER_URL }}
-            title: '${{ github.workflow }} - ${{ github.repository }}'
-            body: 'Action ${{ github.action }} triggered and completed. Job is ${{ job.status }}.'
+            title: '${{ github.repository }}'
+            body: 'Build and Deploy triggered and completed. Job is ${{ job.status }}.'
             url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+            icon: 'https://i.ibb.co/7d8rL1c3/Git-Hub-Mark-ea2971cee799.jpg'
         if: always() # Run this step regardless of the outcome of previous steps
