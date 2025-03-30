@@ -33,7 +33,7 @@ jobs:
             git pull origin main > /dev/null 2>&1
             pnpm install > /dev/null 2>&1
             pnpm run build > /dev/null 2>&1
-            pm2 restart lantern > /dev/null 2>&1
+            pm2 restart "lantern.rest Server" > /dev/null 2>&1
           EOF
 
       - uses: chimpdev/bark-github-action@v1.0.1
