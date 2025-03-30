@@ -18,7 +18,7 @@ function addCustomMethods(request: Request, response: Response, next: NextFuncti
     request.clientIp = request.ip || request.socket.remoteAddress || 'unknown';
   }
 
-  function cleanIp(ip: string) {
+  function cleanIp(ip: string | null) {
     if (!ip) return 'unknown';
     if (ip.includes(',')) return ip.split(',')[0].trim();
 
