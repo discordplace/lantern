@@ -31,8 +31,8 @@ jobs:
           ssh -T -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" << 'EOF' > /dev/null 2>&1
             cd lantern
             git pull origin main > /dev/null 2>&1
-            npm install > /dev/null 2>&1
-            npm run build > /dev/null 2>&1
+            pnpm install > /dev/null 2>&1
+            pnpm run build > /dev/null 2>&1
             pm2 restart lantern > /dev/null 2>&1
           EOF
 
