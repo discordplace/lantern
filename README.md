@@ -865,6 +865,9 @@ npm run bot:unregisterCommands
 > - `PRESENCE INTENT`
 > - `GUILD MEMBERS INTENT`
 
+> [!NOTE]  
+> __**For production use**__ you should connect your domain to Cloudflare. Without Cloudflare, the server will not be able to get the visitor's IP addresses. In development environment, server will use `unknown` as the IP addresses.
+
 ## Contributing
 
 We welcome contributions from the community! If you'd like to contribute to the project, please follow these guidelines:
