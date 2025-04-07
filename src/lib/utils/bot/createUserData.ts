@@ -48,11 +48,11 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
       album: spotifyActivity.assets?.largeText,
       album_cover: spotifyActivity.assets?.largeImageURL(),
       start_time: {
-        unix: spotifyActivity.timestamps?.start?.getTime(),
+        unix: Math.floor(spotifyActivity.timestamps?.start?.getTime() / 1000),
         raw: spotifyActivity.timestamps?.start
       },
       end_time: {
-        unix: spotifyActivity.timestamps?.end?.getTime(),
+        unix: Math.floor(spotifyActivity.timestamps?.end?.getTime() / 1000),
         raw: spotifyActivity.timestamps?.end
       },
       time: {
@@ -73,11 +73,11 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
           emoji: activity.emoji,
           text: activity.state,
           start_time: {
-            unix: activity.createdTimestamp,
+            unix: Math.floor(activity.createdTimestamp / 1000),
             raw: activity.createdAt
           },
           end_time: activity.timestamps?.end ? {
-            unix: activity.timestamps.end.getTime(),
+            unix: Math.floor(activity.timestamps.end.getTime() / 1000),
             raw: activity.timestamps.end
           } : null
         });
@@ -113,7 +113,7 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
           Object.assign(activityData, {
             timestamps: {
               start_time: {
-                unix: activity.timestamps?.start?.getTime(),
+                unix: Math.floor(activity.timestamps.start.getTime() / 1000),
                 raw: activity.timestamps.start
               }
             }
@@ -142,7 +142,7 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
         bitfield: member.user.flags?.bitfield
       },
       monitoring_since: {
-        unix: member.joinedTimestamp,
+        unix: Math.floor(member.joinedTimestamp / 1000),
         raw: member.joinedAt
       }
     },
@@ -159,7 +159,7 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
       ...baseObject,
       status: 'offline',
       last_seen_at: {
-        unix: lastSeenDate.getTime(),
+        unix: Math.floor(lastSeenDate.getTime() / 1000),
         raw: lastSeenDate
       }
     };
