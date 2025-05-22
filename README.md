@@ -796,7 +796,7 @@ Delete a key-value pair for a specific user.
 
 To self-host Lantern, you will need to have the following prerequisites installed on your system:
 
-- [Node.js](https://nodejs.org/en/download/)
+- [Node.js](https://nodejs.org/en/download/) (v22.x won't work, recommend using v21.x)
 - [pnpm](https://pnpm.io/installation)
 - [Git](https://git-scm.com/downloads)
 - [MongoDB](https://www.mongodb.com/try/download/community)
