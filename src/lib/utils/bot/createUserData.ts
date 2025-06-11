@@ -151,7 +151,7 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
     storage: kv
   };
 
-  if (member.presence?.status === 'offline' && client.lastSeens.has(user_id)) {
+  if ((!member.presence || member.presence.status === 'offline') && client.lastSeens.has(user_id)) {
     const lastSeen = client.lastSeens.get(user_id);
     const lastSeenDate = new Date(lastSeen);
 
