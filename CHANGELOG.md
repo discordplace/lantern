@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.0](https://github.com/discordplace/lantern/compare/v1.3.0...v1.4.0) (2025-06-11)
+
+
+### Features
+
+* **middleware:** enhance IP address handling and logging in production ([#41](https://github.com/discordplace/lantern/issues/41)) ([aaf04cd](https://github.com/discordplace/lantern/commit/aaf04cd688eee41b7820e74bab2d1d508ddd18ca))
+
+
+### Bug Fixes
+
+* **ci:** update pm2 restart command to use the correct service name ([0b718ad](https://github.com/discordplace/lantern/commit/0b718ad158e611f9242c2937b99ad58ce681464b))
+* convert timestamps to correct unix format ([4b8c3bd](https://github.com/discordplace/lantern/commit/4b8c3bd6af273208f1ba881faeffe520329194b8))
+* **createSvg:** update last seen timestamp to use raw instead of uinix ([65e7c30](https://github.com/discordplace/lantern/commit/65e7c30652c0c02376c0a760a3c2664f74590b6d))
+* **createUserData:** handle offline presence check more robustly ([bea63f5](https://github.com/discordplace/lantern/commit/bea63f574ad67cc3ea627b2e69b69b52ef6d0cab))
+
 ## [1.3.0](https://github.com/discordplace/lantern/compare/v1.2.0...v1.3.0) (2025-02-12)
 
 
