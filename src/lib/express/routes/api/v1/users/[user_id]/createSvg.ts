@@ -232,7 +232,7 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
                       font-weight: 500;
                       color: ${variables.colors.text.secondary};
                     ">
-                      Last seen ${dateFns.formatDistance(new Date(userData.last_seen_at.unix), new Date(), { addSuffix: true })}
+                      Last seen ${dateFns.formatDistance(new Date(userData.last_seen_at.raw), new Date(), { addSuffix: true })}
                     </span>
                   ` : ''}
                 </div>
