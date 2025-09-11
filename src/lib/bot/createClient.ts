@@ -26,7 +26,7 @@ async function createClient() {
       process.exit(1);
     });
 
-  client.once('ready', () => {
+  client.once(Discord.Events.ClientReady, () => {
     const level = process.env.NODE_ENV === 'development' ? 'info' : 'warn';
     logger[level](`Project is running in ${process.env.NODE_ENV} mode.`);
 
