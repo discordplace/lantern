@@ -132,6 +132,9 @@ importers:
       '@types/express-ws':
         specifier: ^3.0.5
         version: 3.0.5
+      '@types/he':
+        specifier: ^1.2.3
+        version: 1.2.3
       '@types/morgan':
         specifier: ^1.9.9
         version: 1.9.9
@@ -578,6 +581,9 @@ packages:
 
   '@types/express@5.0.0':
     resolution: {integrity: sha512-DvZriSMehGHL1ZNLzi6MidnsDhUZM/x2pRdDIKdwbUNqqwHxMlRdkxtn6/EPKyqKpHqTl/4nRZsRNLpZxZRpPQ==}
+
+  '@types/he@1.2.3':
+    resolution: {integrity: sha512-q67/qwlxblDzEDvzHhVkwc1gzVWxaNxeyHUBF4xElrvjL11O+Ytze+1fGpBHlr/H9myiBUaUXNnNPmBHxxfAcA==}
 
   '@types/http-errors@2.0.4':
     resolution: {integrity: sha512-D0CFMMtydbJAegzOyHjtiKPLlvnm3iTZyZRSZoLq2mRhDdmLfIWOCYPfQJ4cu2erKghU++QvjcUjp/5h7hESpA==}
@@ -2839,6 +2845,8 @@ snapshots:
       '@types/express-serve-static-core': 5.0.1
       '@types/qs': 6.9.16
       '@types/serve-static': 1.15.7
+
+  '@types/he@1.2.3': {}
 
   '@types/http-errors@2.0.4': {}
 
