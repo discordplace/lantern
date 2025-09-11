@@ -53,6 +53,7 @@ exclude_collections = ['evaluateresults', 'messages']
   background = '#17171c'
   background_secondary = '#1e1e24'
   card = '#1e1e24'
+  server_tag_background = '#2c2c33'
 
 [user_svg_card.colors.dark.text]
   primary = '#ffffff'
@@ -62,6 +63,7 @@ exclude_collections = ['evaluateresults', 'messages']
   background = '#e6e6e6'
   background_secondary = '#dcdcdc'
   card = '#eeeeee'
+  server_tag_background = '#d5d5d5'
 
 [user_svg_card.colors.light.text]
   primary = '#242a31'

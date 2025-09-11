@@ -53,6 +53,11 @@ export const get = [
     .isNumeric().withMessage('hideLastSeen must be a number.')
     .isIn([0, 1]).withMessage('hideLastSeen must be either 0 or 1.')
     .toInt(),
+  query('hideServerTag')
+    .optional()
+    .isNumeric().withMessage('hideServerTag must be a number.')
+    .isIn([0, 1]).withMessage('hideServerTag must be either 0 or 1.')
+    .toInt(),
   query('noActivityTitle')
     .optional()
     .isString().withMessage('noActivityTitle must be a string.')

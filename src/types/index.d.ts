@@ -114,6 +114,11 @@ export type BaseUserType = {
   active_platforms: ClientPresenceStatusData;
   activities: (CustomStatusActivity | OtherActivity)[];
   storage: Map<string, string> | {};
+  server_tag: {
+    guild_id: string;
+    name: string;
+    icon_url: string;
+  } | null;
 };
 
 export type UserData =
@@ -199,6 +204,7 @@ export type APIUsersGETRequestQuery = {
   hideBadges?: string;
   hideActivity?: string;
   hideLastSeen?: string;
+  hideServerTag?: string;
   noActivityTitle?: string;
   noActivityMessage?: string;
 }

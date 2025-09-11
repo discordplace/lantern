@@ -148,7 +148,12 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
     },
     active_platforms: activePlatforms,
     activities: parsedActivites,
-    storage: kv
+    storage: kv,
+    server_tag: member.user.primaryGuild.identityEnabled ? {
+      guild_id: member.user.primaryGuild.identityGuildId,
+      name: member.user.primaryGuild.tag,
+      icon_url: member.user.guildTagBadgeURL()
+    } : null
   };
 
   if ((!member.presence || member.presence.status === 'offline') && client.lastSeens.has(user_id)) {

@@ -28,6 +28,7 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
     hideBadges: false,
     hideActivity: false,
     hideLastSeen: false,
+    hideServerTag: false,
     noActivityTitle: 'No Activity',
     noActivityMessage: 'User is not currently doing anything.'
   };
@@ -78,6 +79,10 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
       id: 'small_image',
       url: firstActivity?.assets?.small_image?.image_url,
       base64: null
+    },
+    {
+      id: 'server_tag_icon',
+      url: userData.server_tag?.icon_url
     }
   ];
 
@@ -191,7 +196,6 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
 
           <div style="
             display: flex;
-            justify-content: space-between;
             width: 100%;
           ">
             <div style="
@@ -199,13 +203,11 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
               flex-direction: column;
               gap: 0.25rem;
               margin-left: 27%;
-              width: 100%;
             ">
               <div style="
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
-                width: 100%;
               ">
                 <div style="
                   ${!options.hideGlobalName ? `
@@ -222,9 +224,51 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
                   justify-content: space-between;
                   width: 100%;
                 ">
-                  <span>
-                    @${he.escape(userData.metadata.username)}
-                  </span>
+                  ${!options.hideGlobalName ? `
+                    <span>
+                      @${he.escape(userData.metadata.username)}
+                    </span>  
+                  ` : `
+                    <div style="
+                      display: flex;
+                      align-items: center;
+                      gap: 0.25rem;
+                    ">
+                      <span>
+                        @${he.escape(userData.metadata.username)}
+                      </span>
+
+                      ${!options.hideServerTag && userData.server_tag ? `
+                        <div style="
+                          height: 22px;
+                          width: max-content;
+                          margin-left: 0.5rem;
+                          padding-left: 0.45rem;
+                          padding-right: 0.45rem; 
+                          border-radius: 0.35rem;
+                          background-color: ${variables.colors.server_tag_background};
+                          font-size: 0.75rem;
+                          display: flex;
+                          align-items: center;
+                          gap: 0.25rem;
+                          font-weight: 600;
+                          color: ${variables.colors.text.primary};
+                        ">
+                          <img
+                            alt="Server tag icon"
+                            loading="lazy"
+                            width="14"
+                            height="14"
+                            decoding="async"
+                            style="width: 16px; height: 16px; border-radius: 50%;"
+                            src="data:image/png;base64,${images.find(image => image.id === 'server_tag_icon').base64}"
+                          />
+
+                          ${he.escape(userData.server_tag?.name)}
+                        </div>
+                      ` : ''}
+                    </div>
+                  `}
 
                   ${userData.status === 'offline' && userData.last_seen_at && !options.hideLastSeen ? `
                     <span style="
@@ -267,6 +311,36 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
                   color: ${variables.colors.text.primary};
                 ">
                   ${he.escape(userData.metadata.global_name)}
+
+                  ${!options.hideServerTag && userData.server_tag ? `
+                    <div style="
+                      height: 22px;
+                      width: max-content;
+                      margin-left: 0.5rem;
+                      padding-left: 0.45rem;
+                      padding-right: 0.45rem; 
+                      border-radius: 0.35rem;
+                      background-color: ${variables.colors.server_tag_background};
+                      font-size: 0.75rem;
+                      display: flex;
+                      align-items: center;
+                      gap: 0.25rem;
+                      font-weight: 600;
+                      color: ${variables.colors.text.primary};
+                    ">
+                      <img
+                        alt="Server tag icon"
+                        loading="lazy"
+                        width="14"
+                        height="14"
+                        decoding="async"
+                        style="width: 16px; height: 16px; border-radius: 50%;"
+                        src="data:image/png;base64,${images.find(image => image.id === 'server_tag_icon').base64}"
+                      />
+
+                      ${he.escape(userData.server_tag?.name)}
+                    </div>
+                  ` : ''}
                 </div>
               ` : ''}
             </div>

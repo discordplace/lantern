@@ -66,8 +66,8 @@ Retrieve the data of users with the specified IDs.
         "discriminator": "0",
         "global_name": "example",
         "avatar": "abcdef1234567890",
-        "avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.png",
-        "display_avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.png",
+        "avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.webp",
+        "display_avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.webp",
         "bot": false,
         "flags": {
           "human_readable": ["Staff"],
@@ -137,6 +137,11 @@ Retrieve the data of users with the specified IDs.
       "storage": {
         "key": "value"
       },
+      "server_tag": {
+        "guild_id": "987654321098765432",
+        "name": "GGEZ",
+        "icon_url": "https://cdn.discordapp.com/guild-tag-badges/1234567890123456789/abcdef1234567890.webp"
+      },
       "status": "online",
       "last_seen_at": null // This will be { unix: number, raw: string } if the user is offline and the last seen time is available
     },
@@ -161,6 +166,7 @@ Retrieve the data of a user with the specified ID.
 | `hideBadges` | number | Whether to hide the user's badges. Must be either `0` or `1`. |
 | `hideActivity` | number | Whether to hide the user's activity. Must be either `0` or `1`. |
 | `hideLastSeen` | number | Whether to hide the user's last seen time. Must be either `0` or `1`. |
+| `hideServerTag` | number | Whether to hide the user's server tag. Must be either `0` or `1`. |
 | `noActivityTitle` | string | The title to display when the user has no activity. Default might be `No Activity`. Can't be greater than 64 characters. |
 | `noActivityMessage` | string | The message to display when the user has no activity. Default might be `This user is not currently doing anything.`. Can't be greater than 256 characters. |
 
@@ -179,8 +185,8 @@ Retrieve the data of a user with the specified ID.
     "discriminator": "0",
     "global_name": "example",
     "avatar": "abcdef1234567890",
-    "avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.png",
-    "display_avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.png",
+    "avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.webp",
+    "display_avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.webp",
     "bot": false,
     "flags": {
       "human_readable": ["Staff"],
@@ -249,6 +255,11 @@ Retrieve the data of a user with the specified ID.
   // Key-value pairs for the user (if any)
   "storage": {
     "key": "value"
+  },
+  "server_tag": {
+    "guild_id": "987654321098765432",
+    "name": "GGEZ",
+    "icon_url": "https://cdn.discordapp.com/guild-tag-badges/1234567890123456789/abcdef1234567890.webp"
   },
   "status": "online",
   "last_seen_at": null // This will be { unix: number, raw: string } if the user is offline and the last seen time is available

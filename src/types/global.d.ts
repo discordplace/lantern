@@ -78,6 +78,7 @@ type UserSVGCardConfig = {
       background: string;
       background_secondary: string;
       card: string;
+      server_tag_background: string;
       text: {
         primary: string;
         secondary: string;
@@ -87,6 +88,7 @@ type UserSVGCardConfig = {
       background: string;
       background_secondary: string;
       card: string;
+      server_tag_background: string;
       text: {
         primary: string;
         secondary: string;
