@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/discordplace/lantern/compare/v1.4.0...v1.4.1) (2026-01-01)
+
+
+### Bug Fixes
+
+* correct position of last seen display ([11305ce](https://github.com/discordplace/lantern/commit/11305ceb988343dae8e62261956049433a274884))
+
 ## [1.4.0](https://github.com/discordplace/lantern/compare/v1.3.0...v1.4.0) (2025-10-24)
 
 
