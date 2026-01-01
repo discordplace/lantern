@@ -197,6 +197,7 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
           <div style="
             display: flex;
             width: 100%;
+            justify-content: space-between;
           ">
             <div style="
               display: flex;
@@ -269,16 +270,6 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
                       ` : ''}
                     </div>
                   `}
-
-                  ${userData.status === 'offline' && userData.last_seen_at && !options.hideLastSeen ? `
-                    <span style="
-                      font-size: 0.75rem;
-                      font-weight: 500;
-                      color: ${variables.colors.text.secondary};
-                    ">
-                      Last seen ${dateFns.formatDistance(new Date(userData.last_seen_at.raw), new Date(), { addSuffix: true })}
-                    </span>
-                  ` : ''}
                 </div>
 
                 ${!options.hideBadges ? `
@@ -302,6 +293,7 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
                   </div>
                 ` : ''}
               </div>
+
               ${!options.hideGlobalName ? `
                 <div style="
                   display: flex;
@@ -344,6 +336,17 @@ async function createSvg(userData: UserData, options: CreateSvgOptions = {}) {
                 </div>
               ` : ''}
             </div>
+
+            ${userData.status === 'offline' && userData.last_seen_at && !options.hideLastSeen ? `
+              <span style="
+                font-size: 0.75rem;
+                font-weight: 500;
+                color: ${variables.colors.text.secondary};
+                padding-right: 1rem;
+              ">
+                Last seen ${dateFns.formatDistance(new Date(userData.last_seen_at.raw), new Date(), { addSuffix: true })}
+              </span>
+            ` : ''}
           </div>
 
           ${!options.hideActivity && userData.activities.length > 0 ? `
