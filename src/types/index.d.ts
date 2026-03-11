@@ -101,6 +101,40 @@ export type BaseUserType = {
     avatar: string | null;
     avatar_url: string | null;
     display_avatar_url: string;
+    avatar_decoration_data: {
+      asset: string;
+      sku_id: string;
+    } | null;
+    banner_decoration_data: {
+      asset: string;
+      sku_id: string;
+    } | null;
+    collectibles: {
+      nameplate?: {
+        label: string;
+        sku_id: string;
+        asset: string;
+        expires_at: number | null;
+        palette: string;
+      };
+    } | null;
+    display_name_styles: {
+      colors: number[];
+      effect_id: number;
+      font_id: number;
+    } | null;
+    clan: {
+      tag: string;
+      badge: string;
+      identity_enabled: boolean;
+      identity_guild_id: string;
+    } | null;
+    primary_guild: {
+      tag: string;
+      badge: string;
+      identity_enabled: boolean;
+      identity_guild_id: string;
+    } | null;
     bot: boolean;
     flags: {
       human_readable: string[];
@@ -131,6 +165,8 @@ export type ClientPresenceStatusData = {
   web: ClientPresenceStatus;
   mobile: ClientPresenceStatus;
   desktop: ClientPresenceStatus;
+  embedded: ClientPresenceStatus;
+  vr: ClientPresenceStatus;
   spotify: SpotifyActivity | null;
 }
 

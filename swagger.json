@@ -46,7 +46,14 @@
           "200": {
             "description": "User data retrieved successfully.",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserData"
+                  }
+                }
+              }
             }
           },
           "400": {
@@ -129,7 +136,7 @@
             "required": true,
             "description": "The user ID to fetch data for.",
             "schema": {
-              "type": "number",
+              "type": "string",
               "minLength": 17,
               "maxLength": 19,
               "pattern": "^[0-9]{17,19}$"
@@ -253,7 +260,11 @@
           "200": {
             "description": "User data retrieved successfully.",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserData"
+                }
+              }
             }
           },
           "404": {
@@ -296,7 +307,7 @@
             "required": true,
             "description": "The user ID to fetch storage data for.",
             "schema": {
-              "type": "number",
+              "type": "string",
               "minLength": 17,
               "maxLength": 19,
               "pattern": "^[0-9]{17,19}$"
@@ -359,7 +370,7 @@
             "required": true,
             "description": "The user ID to delete storage data for.",
             "schema": {
-              "type": "number",
+              "type": "string",
               "minLength": 17,
               "maxLength": 19,
               "pattern": "^[0-9]{17,19}$"
@@ -429,7 +440,7 @@
             "required": true,
             "description": "The user ID to fetch storage data for.",
             "schema": {
-              "type": "number",
+              "type": "string",
               "minLength": 17,
               "maxLength": 19,
               "pattern": "^[0-9]{17,19}$"
@@ -519,7 +530,7 @@
             "required": true,
             "description": "The user ID to create storage data for.",
             "schema": {
-              "type": "number",
+              "type": "string",
               "minLength": 17,
               "maxLength": 19,
               "pattern": "^[0-9]{17,19}$"
@@ -621,7 +632,7 @@
             "required": true,
             "description": "The user ID to update storage data for.",
             "schema": {
-              "type": "number",
+              "type": "string",
               "minLength": 17,
               "maxLength": 19,
               "pattern": "^[0-9]{17,19}$"
@@ -723,7 +734,7 @@
             "required": true,
             "description": "The user ID to delete storage data for.",
             "schema": {
-              "type": "number",
+              "type": "string",
               "minLength": 17,
               "maxLength": 19,
               "pattern": "^[0-9]{17,19}$"
@@ -806,6 +817,201 @@
         "name": "Authorization",
         "in": "header",
         "description": "The token you get from the Lantern bot to access the KV storage API."
+      }
+    },
+    "schemas": {
+      "UserData": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "online",
+              "idle",
+              "dnd",
+              "offline"
+            ]
+          },
+          "last_seen_at": {
+            "type": "object",
+            "properties": {
+              "unix": {
+                "type": "number",
+                "nullable": true
+              },
+              "raw": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              }
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              },
+              "global_name": {
+                "type": "string",
+                "nullable": true
+              },
+              "avatar_decoration_data": {
+                "type": "object",
+                "nullable": true,
+                "properties": {
+                  "asset": {
+                    "type": "string"
+                  },
+                  "sku_id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "banner_decoration_data": {
+                "type": "object",
+                "nullable": true,
+                "properties": {
+                  "asset": {
+                    "type": "string"
+                  },
+                  "sku_id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "collectibles": {
+                "type": "object",
+                "nullable": true,
+                "properties": {
+                  "nameplate": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "sku_id": {
+                        "type": "string"
+                      },
+                      "asset": {
+                        "type": "string"
+                      },
+                      "palette": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "display_name_styles": {
+                "type": "object",
+                "nullable": true,
+                "properties": {
+                  "colors": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "effect_id": {
+                    "type": "number"
+                  },
+                  "font_id": {
+                    "type": "number"
+                  }
+                }
+              },
+              "clan": {
+                "type": "object",
+                "nullable": true,
+                "properties": {
+                  "tag": {
+                    "type": "string"
+                  },
+                  "badge": {
+                    "type": "string"
+                  },
+                  "identity_enabled": {
+                    "type": "boolean"
+                  },
+                  "identity_guild_id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "primary_guild": {
+                "type": "object",
+                "nullable": true,
+                "properties": {
+                  "tag": {
+                    "type": "string"
+                  },
+                  "badge": {
+                    "type": "string"
+                  },
+                  "identity_enabled": {
+                    "type": "boolean"
+                  },
+                  "identity_guild_id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "bot": {
+                "type": "boolean"
+              },
+              "flags": {
+                "type": "object",
+                "properties": {
+                  "human_readable": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  },
+                  "bitfield": { "type": "number" }
+                }
+              },
+              "monitoring_since": {
+                "type": "object",
+                "properties": {
+                  "unix": { "type": "number", "nullable": true },
+                  "raw": { "type": "string", "format": "date-time", "nullable": true }
+                }
+              }
+            }
+          },
+          "active_platforms": {
+            "type": "object",
+            "properties": {
+              "web": {
+                "type": "string"
+              },
+              "mobile": {
+                "type": "string"
+              },
+              "desktop": {
+                "type": "string"
+              },
+              "embedded": {
+                "type": "string"
+              },
+              "vr": {
+                "type": "string"
+              }
+            }
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "storage": {
+            "type": "object"
+          }
+        }
       }
     }
   }

@@ -21,6 +21,8 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
     desktop: member.presence?.clientStatus?.desktop as ClientPresenceStatus || 'offline',
     mobile: member.presence?.clientStatus?.mobile as ClientPresenceStatus || 'offline',
     web: member.presence?.clientStatus?.web as ClientPresenceStatus || 'offline',
+    embedded: (member.presence?.clientStatus as any)?.embedded as ClientPresenceStatus || 'offline',
+    vr: (member.presence?.clientStatus as any)?.vr as ClientPresenceStatus || 'offline',
     spotify: null
   } as ClientPresenceStatusData;
 
@@ -141,6 +143,40 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
           .toArray(),
         bitfield: member.user.flags?.bitfield
       },
+      avatar_decoration_data: (member.user as any).avatarDecorationData ? {
+        asset: (member.user as any).avatarDecorationData.asset,
+        sku_id: (member.user as any).avatarDecorationData.skuId,
+      } : null,
+      banner_decoration_data: (member.user as any).bannerDecorationData ? {
+        asset: (member.user as any).bannerDecorationData.asset,
+        sku_id: (member.user as any).bannerDecorationData.skuId,
+      } : null,
+      collectibles: (member.user as any).collectibles ? {
+        nameplate: (member.user as any).collectibles.nameplate ? {
+          label: (member.user as any).collectibles.nameplate.label,
+          sku_id: (member.user as any).collectibles.nameplate.skuId,
+          asset: (member.user as any).collectibles.nameplate.asset,
+          expires_at: (member.user as any).collectibles.nameplate.expiresAt,
+          palette: (member.user as any).collectibles.nameplate.palette,
+        } : undefined
+      } : null,
+      display_name_styles: (member.user as any).userDisplayNameStyles ? {
+        colors: (member.user as any).userDisplayNameStyles.colors,
+        effect_id: (member.user as any).userDisplayNameStyles.effectId,
+        font_id: (member.user as any).userDisplayNameStyles.fontId,
+      } : null,
+      clan: (member.user as any).clan ? {
+        tag: (member.user as any).clan.tag,
+        badge: (member.user as any).clan.badge,
+        identity_enabled: (member.user as any).clan.identityEnabled,
+        identity_guild_id: (member.user as any).clan.identityGuildId,
+      } : null,
+      primary_guild: (member.user as any).primaryGuild ? {
+        tag: (member.user as any).primaryGuild.tag,
+        badge: (member.user as any).primaryGuild.badge,
+        identity_enabled: (member.user as any).primaryGuild.identityEnabled,
+        identity_guild_id: (member.user as any).primaryGuild.identityGuildId,
+      } : null,
       monitoring_since: {
         unix: Math.floor(member.joinedTimestamp / 1000),
         raw: member.joinedAt
