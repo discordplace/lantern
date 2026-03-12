@@ -26,6 +26,40 @@ async function createClient() {
       process.exit(1);
     });
 
+  client.on('raw', (packet) => {
+    const events = ['PRESENCE_UPDATE', 'GUILD_MEMBER_UPDATE', 'GUILD_MEMBER_ADD', 'GUILD_MEMBERS_CHUNK', 'USER_UPDATE', 'READY'];
+    if (events.includes(packet.t)) {
+      let users = [];
+      
+      if (packet.t === 'READY') {
+        users = (packet.d.guilds || []).flatMap((g: any) => g.members || []).map((m: any) => m.user);
+      } else if (packet.t === 'GUILD_MEMBERS_CHUNK') {
+        users = (packet.d.members || []).map((m: any) => m.user);
+      } else if (packet.t === 'USER_UPDATE') {
+        users = [packet.d];
+      } else if (packet.d.user) {
+        users = [packet.d.user];
+      }
+
+      for (const rawUser of users) {
+        if (!rawUser || !rawUser.id) continue;
+        
+        const cachedUser = client.users.cache.get(rawUser.id);
+        if (!cachedUser) continue;
+        
+        if ('banner' in rawUser) (cachedUser as any).banner = rawUser.banner;
+        if ('accent_color' in rawUser) (cachedUser as any).hexAccentColor = rawUser.accent_color;
+        if ('display_name_styles' in rawUser) (cachedUser as any).userDisplayNameStyles = rawUser.display_name_styles;
+        if ('avatar_decoration_data' in rawUser) (cachedUser as any).avatarDecorationData = rawUser.avatar_decoration_data;
+        if ('banner_decoration_data' in rawUser) (cachedUser as any).bannerDecorationData = rawUser.banner_decoration_data;
+        if ('collectibles' in rawUser) (cachedUser as any).collectibles = rawUser.collectibles;
+        if ('clan' in rawUser) (cachedUser as any).clan = rawUser.clan;
+        if ('primary_guild' in rawUser) (cachedUser as any).primaryGuild = rawUser.primary_guild;
+        if ('profile_effect_id' in rawUser) (cachedUser as any).profileEffectId = rawUser.profile_effect_id;
+      }
+    }
+  });
+
   client.once(Discord.Events.ClientReady, () => {
     const level = process.env.NODE_ENV === 'development' ? 'info' : 'warn';
     logger[level](`Project is running in ${process.env.NODE_ENV} mode.`);

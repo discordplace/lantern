@@ -73,7 +73,7 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
           name: activity.name,
           type: 4,
           emoji: activity.emoji,
-          text: activity.state,
+          state: activity.state,
           start_time: {
             unix: Math.floor(activity.createdTimestamp / 1000),
             raw: activity.createdAt
@@ -138,6 +138,8 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
       avatar_url: member.user.avatarURL(),
       display_avatar_url: member.user.displayAvatarURL(),
       bot: member.user.bot,
+      banner: member.user.banner,
+      banner_color: member.user.hexAccentColor,
       flags: {
         human_readable: new Discord.UserFlagsBitField(member.user.flags?.bitfield)
           .toArray(),
@@ -145,37 +147,42 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
       },
       avatar_decoration_data: (member.user as any).avatarDecorationData ? {
         asset: (member.user as any).avatarDecorationData.asset,
-        sku_id: (member.user as any).avatarDecorationData.skuId,
+        sku_id: (member.user as any).avatarDecorationData.sku_id || (member.user as any).avatarDecorationData.skuId,
       } : null,
       banner_decoration_data: (member.user as any).bannerDecorationData ? {
         asset: (member.user as any).bannerDecorationData.asset,
-        sku_id: (member.user as any).bannerDecorationData.skuId,
+        sku_id: (member.user as any).bannerDecorationData.sku_id || (member.user as any).bannerDecorationData.skuId,
       } : null,
       collectibles: (member.user as any).collectibles ? {
         nameplate: (member.user as any).collectibles.nameplate ? {
           label: (member.user as any).collectibles.nameplate.label,
-          sku_id: (member.user as any).collectibles.nameplate.skuId,
+          sku_id: (member.user as any).collectibles.nameplate.sku_id || (member.user as any).collectibles.nameplate.skuId,
           asset: (member.user as any).collectibles.nameplate.asset,
-          expires_at: (member.user as any).collectibles.nameplate.expiresAt,
+          expires_at: (member.user as any).collectibles.nameplate.expires_at 
+            ? Math.floor(new Date((member.user as any).collectibles.nameplate.expires_at).getTime() / 1000)
+            : ((member.user as any).collectibles.nameplate.expiresAt 
+                ? Math.floor(new Date((member.user as any).collectibles.nameplate.expiresAt).getTime() / 1000)
+                : null),
           palette: (member.user as any).collectibles.nameplate.palette,
-        } : undefined
+        } : null
       } : null,
       display_name_styles: (member.user as any).userDisplayNameStyles ? {
         colors: (member.user as any).userDisplayNameStyles.colors,
-        effect_id: (member.user as any).userDisplayNameStyles.effectId,
-        font_id: (member.user as any).userDisplayNameStyles.fontId,
+        effect_id: (member.user as any).userDisplayNameStyles.effect_id || (member.user as any).userDisplayNameStyles.effectId,
+        font_id: (member.user as any).userDisplayNameStyles.font_id || (member.user as any).userDisplayNameStyles.fontId,
       } : null,
+      profile_effect_id: (member.user as any).profileEffectId || null,
       clan: (member.user as any).clan ? {
         tag: (member.user as any).clan.tag,
         badge: (member.user as any).clan.badge,
-        identity_enabled: (member.user as any).clan.identityEnabled,
-        identity_guild_id: (member.user as any).clan.identityGuildId,
+        identity_enabled: (member.user as any).clan.identity_enabled ?? (member.user as any).clan.identityEnabled,
+        identity_guild_id: (member.user as any).clan.identity_guild_id || (member.user as any).clan.identityGuildId,
       } : null,
       primary_guild: (member.user as any).primaryGuild ? {
         tag: (member.user as any).primaryGuild.tag,
         badge: (member.user as any).primaryGuild.badge,
-        identity_enabled: (member.user as any).primaryGuild.identityEnabled,
-        identity_guild_id: (member.user as any).primaryGuild.identityGuildId,
+        identity_enabled: (member.user as any).primaryGuild.identity_enabled ?? (member.user as any).primaryGuild.identityEnabled,
+        identity_guild_id: (member.user as any).primaryGuild.identity_guild_id || (member.user as any).primaryGuild.identityGuildId,
       } : null,
       monitoring_since: {
         unix: Math.floor(member.joinedTimestamp / 1000),
@@ -191,29 +198,17 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
       icon_url: member.user.guildTagBadgeURL()
     } : null
   };
+  const lastSeen = client.lastSeens.get(user_id);
+  const lastSeenDate = lastSeen ? new Date(lastSeen) : null;
 
-  if ((!member.presence || member.presence.status === 'offline') && client.lastSeens.has(user_id)) {
-    const lastSeen = client.lastSeens.get(user_id);
-    const lastSeenDate = new Date(lastSeen);
-
-    return {
-      ...baseObject,
-      status: 'offline',
-      last_seen_at: {
-        unix: Math.floor(lastSeenDate.getTime() / 1000),
-        raw: lastSeenDate
-      }
-    };
-  } else {
-    return {
-      ...baseObject,
-      status: member.presence?.status as Exclude<string, 'offline'>,
-      last_seen_at: {
-        unix: null,
-        raw: null
-      }
-    };
-  }
+  return {
+    ...baseObject,
+    status: (member.presence?.status || 'offline') as ClientPresenceStatus,
+    last_seen_at: {
+      unix: lastSeenDate ? Math.floor(lastSeenDate.getTime() / 1000) : null,
+      raw: lastSeenDate
+    }
+  };
 }
 
 export default createUserData;

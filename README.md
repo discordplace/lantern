@@ -59,30 +59,61 @@ Retrieve the data of users with the specified IDs.
   ```json
   [
     {
-      // User metadata object
       "metadata": {
         "id": "123456789012345678",
         "username": "example",
         "discriminator": "0",
         "global_name": "example",
         "avatar": "abcdef1234567890",
-        "avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.webp",
-        "display_avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.webp",
+        "avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/abcdef1234567890.png",
+        "display_avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/abcdef1234567890.png",
         "bot": false,
+        "banner": "abcdef1234567890",
+        "banner_color": "#ffffff",
         "flags": {
           "human_readable": ["Staff"],
           "bitfield": 1
         },
+        "avatar_decoration_data": {
+          "asset": "a_c48b135704ecb5c88f2f71f6c8bcce2f",
+          "sku_id": "1357589632581374042"
+        },
+        "banner_decoration_data": null,
+        "collectibles": {
+          "nameplate": {
+            "label": "Crimson",
+            "sku_id": "123456789",
+            "asset": "abcdef",
+            "expires_at": 1620000000,
+            "palette": "crimson"
+          }
+        },
+        "display_name_styles": {
+          "colors": [1384146],
+          "effect_id": 4,
+          "font_id": 7
+        },
+        "profile_effect_id": null,
+        "clan": {
+          "tag": "ABC",
+          "badge": "abcdef",
+          "identity_enabled": true,
+          "identity_guild_id": "123456789012345678"
+        },
+        "primary_guild": null,
         "monitoring_since": {
           "unix": 1620000000,
           "raw": "2021-05-03T00:00:00.000Z"
         }
+      },
       },
       // Active platforms object with current Spotify track
       "active_platforms": {
         "desktop": "online",
         "mobile": "offline",
         "web": "offline",
+        "embedded": "offline",
+        "vr": "offline",
         "spotify": {
           "track_id": "abcdef1234567890",
           "song": "example",
@@ -185,23 +216,55 @@ Retrieve the data of a user with the specified ID.
     "discriminator": "0",
     "global_name": "example",
     "avatar": "abcdef1234567890",
-    "avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.webp",
-    "display_avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.webp",
+    "avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/abcdef1234567890.png",
+    "display_avatar_url": "https://cdn.discordapp.com/avatars/123456789012345678/abcdef1234567890.png",
     "bot": false,
+    "banner": "abcdef1234567890",
+    "banner_color": "#ffffff",
     "flags": {
-      "human_readable": ["Staff"],
-      "bitfield": 1
+      "human_readable": ["HypeSquadOnlineHouse1"],
+      "bitfield": 64
     },
+    "avatar_decoration_data": {
+      "asset": "a_c48b135704ecb5c88f2f71f6c8bcce2f",
+      "sku_id": "1357589632581374042"
+    },
+    "banner_decoration_data": null,
+    "collectibles": {
+      "nameplate": {
+        "label": "Crimson",
+        "sku_id": "123456789",
+        "asset": "abcdef",
+        "expires_at": 1620000000,
+        "palette": "crimson"
+      }
+    },
+    "display_name_styles": {
+      "colors": [1384146],
+      "effect_id": 4,
+      "font_id": 7
+    },
+    "profile_effect_id": null,
+    "clan": {
+      "tag": "ABC",
+      "badge": "abcdef",
+      "identity_enabled": true,
+      "identity_guild_id": "123456789012345678"
+    },
+    "primary_guild": null,
     "monitoring_since": {
       "unix": 1620000000,
       "raw": "2021-05-03T00:00:00.000Z"
     }
+  },
   },
   // Active platforms object with current Spotify track
   "active_platforms": {
     "desktop": "online",
     "mobile": "offline",
     "web": "offline",
+    "embedded": "offline",
+    "vr": "offline",
     "spotify": {
       "track_id": "abcdef1234567890",
       "song": "example",
@@ -264,6 +327,7 @@ Retrieve the data of a user with the specified ID.
   "status": "online",
   "last_seen_at": null // This will be { unix: number, raw: string } if the user is offline and the last seen time is available
 }
+```
 ```
 </details>
 

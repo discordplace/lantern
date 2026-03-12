@@ -136,10 +136,13 @@ export type BaseUserType = {
       identity_guild_id: string;
     } | null;
     bot: boolean;
+    banner?: string;
+    banner_color?: string;
     flags: {
       human_readable: string[];
       bitfield: number | null | undefined;
     };
+    profile_effect_id: string | null;
     monitoring_since: {
       unix: number | null;
       raw: Date | null;
@@ -155,9 +158,13 @@ export type BaseUserType = {
   } | null;
 };
 
-export type UserData =
-  | (BaseUserType & { status: 'offline'; last_seen_at: { unix: number; raw: Date } })
-  | (BaseUserType & { status: Exclude<string, 'offline'>; last_seen_at: { unix: number; raw: Date } });
+export type UserData = BaseUserType & {
+  status: ClientPresenceStatus;
+  last_seen_at: {
+    unix: number | null;
+    raw: Date | null;
+  };
+};
 
 export type ClientPresenceStatus = 'online' | 'idle' | 'dnd' | 'offline';
 
