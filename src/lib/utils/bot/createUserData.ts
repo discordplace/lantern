@@ -149,10 +149,6 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
         asset: (member.user as any).avatarDecorationData.asset,
         sku_id: (member.user as any).avatarDecorationData.sku_id || (member.user as any).avatarDecorationData.skuId,
       } : null,
-      banner_decoration_data: (member.user as any).bannerDecorationData ? {
-        asset: (member.user as any).bannerDecorationData.asset,
-        sku_id: (member.user as any).bannerDecorationData.sku_id || (member.user as any).bannerDecorationData.skuId,
-      } : null,
       collectibles: (member.user as any).collectibles ? {
         nameplate: (member.user as any).collectibles.nameplate ? {
           label: (member.user as any).collectibles.nameplate.label,
@@ -171,7 +167,6 @@ function createUserData(user_id: string, kv: Map<string, string> | {}): UserData
         effect_id: (member.user as any).userDisplayNameStyles.effect_id || (member.user as any).userDisplayNameStyles.effectId,
         font_id: (member.user as any).userDisplayNameStyles.font_id || (member.user as any).userDisplayNameStyles.fontId,
       } : null,
-      profile_effect_id: (member.user as any).profileEffectId || null,
       clan: (member.user as any).clan ? {
         tag: (member.user as any).clan.tag,
         badge: (member.user as any).clan.badge,

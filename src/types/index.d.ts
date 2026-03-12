@@ -105,10 +105,6 @@ export type BaseUserType = {
       asset: string;
       sku_id: string;
     } | null;
-    banner_decoration_data: {
-      asset: string;
-      sku_id: string;
-    } | null;
     collectibles: {
       nameplate?: {
         label: string;
@@ -142,7 +138,6 @@ export type BaseUserType = {
       human_readable: string[];
       bitfield: number | null | undefined;
     };
-    profile_effect_id: string | null;
     monitoring_since: {
       unix: number | null;
       raw: Date | null;

@@ -51,11 +51,19 @@ async function createClient() {
         if ('accent_color' in rawUser) (cachedUser as any).hexAccentColor = rawUser.accent_color;
         if ('display_name_styles' in rawUser) (cachedUser as any).userDisplayNameStyles = rawUser.display_name_styles;
         if ('avatar_decoration_data' in rawUser) (cachedUser as any).avatarDecorationData = rawUser.avatar_decoration_data;
-        if ('banner_decoration_data' in rawUser) (cachedUser as any).bannerDecorationData = rawUser.banner_decoration_data;
         if ('collectibles' in rawUser) (cachedUser as any).collectibles = rawUser.collectibles;
         if ('clan' in rawUser) (cachedUser as any).clan = rawUser.clan;
         if ('primary_guild' in rawUser) (cachedUser as any).primaryGuild = rawUser.primary_guild;
-        if ('profile_effect_id' in rawUser) (cachedUser as any).profileEffectId = rawUser.profile_effect_id;
+
+        // Re-inject properties into rawUser if they're missing to prevent Discord.js from potentially dropping them
+        // if it replaces the User object in the cache with a fresh one from the packet.
+        if (!('banner' in rawUser) && (cachedUser as any).banner) rawUser.banner = (cachedUser as any).banner;
+        if (!('accent_color' in rawUser) && (cachedUser as any).hexAccentColor) rawUser.accent_color = (cachedUser as any).hexAccentColor;
+        if (!('display_name_styles' in rawUser) && (cachedUser as any).userDisplayNameStyles) rawUser.display_name_styles = (cachedUser as any).userDisplayNameStyles;
+        if (!('avatar_decoration_data' in rawUser) && (cachedUser as any).avatarDecorationData) rawUser.avatar_decoration_data = (cachedUser as any).avatarDecorationData;
+        if (!('collectibles' in rawUser) && (cachedUser as any).collectibles) rawUser.collectibles = (cachedUser as any).collectibles;
+        if (!('clan' in rawUser) && (cachedUser as any).clan) rawUser.clan = (cachedUser as any).clan;
+        if (!('primary_guild' in rawUser) && (cachedUser as any).primaryGuild) rawUser.primary_guild = (cachedUser as any).primaryGuild;
       }
     }
   });
