@@ -10,6 +10,8 @@ export default {
 
     syncUsers();
 
+    if (!global.ActiveSockets) return;
+
     // Send a message to all active sockets that the user has joined the server
     for (const [, data] of ActiveSockets) {
       if (data.subscribed === 'ALL') {

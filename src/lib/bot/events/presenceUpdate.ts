@@ -32,6 +32,8 @@ export default {
     }
 
     // find if any socket is monitoring the user
+    if (!global.ActiveSockets) return;
+
     const anySocketMonitoring = [...ActiveSockets.values()]
       .some(data => data.subscribed === 'ALL' || data.subscribed.includes(newPresence.user!.id));
 

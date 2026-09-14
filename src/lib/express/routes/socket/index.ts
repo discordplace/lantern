@@ -8,7 +8,7 @@ import Storage from '@/models/Storage';
 import type { WebSocket } from 'ws';
 import { InitSchema } from '@/express/routes/socket/schemas';
 
-global.ActiveSockets = new Discord.Collection();
+global.ActiveSockets ??= new Discord.Collection();
 
 const Opcodes = config.server.socket.opcodes;
 

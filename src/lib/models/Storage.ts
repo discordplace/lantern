@@ -58,6 +58,8 @@ export type StorageType = mongoose.InferSchemaType<typeof Storage>;
 const Model = mongoose.model('KeyValueStorages', Storage);
 
 Model.watch().on('change', async (metadata: ChangeStreamDocument<StorageType>) => {
+  if (!global.ActiveSockets) return;
+
   // @ts-expect-error - The _id property is always present
   const { documentKey: { _id }, operationType } = metadata;
 

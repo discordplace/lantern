@@ -18,6 +18,10 @@ async function createClient() {
     ]
   });
 
+  // Initialise shared state before anything can use it. Event handlers and
+  // crons read ActiveSockets even if the Express routes haven't loaded yet.
+  global.ActiveSockets ??= new Discord.Collection();
+
   client.login(process.env.DISCORD_BOT_TOKEN)
     .catch(error => {
       logger.error('Failed to login to Discord:');
@@ -33,11 +37,17 @@ async function createClient() {
     logger.log('bot', `Client logged in as ${client.user!.tag}`);
 
     global.client = client;
+    client.lastSeens = new Discord.Collection();
 
     syncUsers()
       .then(async () => {
         // Start the Express server
-        createServer();
+        try {
+          await createServer();
+        } catch (error) {
+          logger.error('Failed to start Express server:');
+          logger.error(error);
+        }
 
         const commands = await fetchCommands();
         client.commands = commands;
@@ -59,8 +69,6 @@ async function createClient() {
         logger.log('bot', `Fetched and listened to ${crons.size} crons.`);
 
         // Cache last seen dates
-        client.lastSeens = new Discord.Collection();
-
         const usersWithLastSeen = await User.find({ lastSeenAt: { $ne: null } })
           .select('id lastSeenAt')
           .lean();

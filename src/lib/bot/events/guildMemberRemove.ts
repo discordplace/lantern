@@ -9,6 +9,8 @@ export default {
 
     logger.info(`User ${member.user.id} has left the server and is no longer monitored.`);
 
+    if (!global.ActiveSockets) return;
+
     // Send a message to all active sockets that the user has left the server
     for (const [id, data] of ActiveSockets) {
       if (data.subscribed === member.user.id) {
