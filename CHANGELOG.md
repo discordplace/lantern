@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/discordplace/lantern/compare/v1.4.1...v1.4.2) (2026-09-14)
+
+
+### Bug Fixes
+
+* initialise ActiveSockets before events use it ([02da26d](https://github.com/discordplace/lantern/commit/02da26d554582a700e338ccd4f5701dbd68e564b))
+
 ## [1.4.1](https://github.com/discordplace/lantern/compare/v1.4.0...v1.4.1) (2026-01-01)
 
 
